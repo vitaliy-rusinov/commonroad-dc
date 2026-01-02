@@ -3,11 +3,11 @@
 #include <math.h>
 #include <Eigen/Dense>
 
-#include "collision/line_segment.h"
+#include "collision/raytrace/line_segment.h"
 #include "collision/narrowphase/point.h"
-#include "collision/raytrace_primitive.h"
+#include "collision/raytrace/raytrace_primitive.h"
 
-#include "collision/raytrace_utils.h"
+#include "collision/raytrace/raytrace_utils.h"
 
 namespace collision {
 namespace raytrace {

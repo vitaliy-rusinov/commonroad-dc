@@ -20,7 +20,7 @@
 #include <Eigen/Dense>
 
 #include "collision/collision_object_types.h"
-#include "collision/line_segment.h"
+#include "collision/raytrace/line_segment.h"
 
 #include "collision/i_collision_container.h"
 #include "collision/solvers/fcl/solver_entity_fcl.h"

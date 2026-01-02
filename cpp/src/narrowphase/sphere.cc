@@ -6,7 +6,7 @@
 
 #include "collision/narrowphase/point.h"
 
-#include "collision/raytrace_primitive.h"
+#include "collision/raytrace/raytrace_primitive.h"
 
 #include <fcl/math/constants.h>
 

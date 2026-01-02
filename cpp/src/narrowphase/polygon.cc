@@ -2,7 +2,7 @@
 #include <fcl/narrowphase/collision.h>
 #include <fcl/narrowphase/collision_object.h>
 #include "collision/plugins/triangulation/triangulate.h"
-#include "collision/raytrace_utils.h"
+#include "collision/raytrace/raytrace_utils.h"
 #include "collision/shape_group.h"
 #include "collision/solvers/boost/boost_collision_queries.h"
 #include "collision/solvers/fcl/fcl_decl.h"

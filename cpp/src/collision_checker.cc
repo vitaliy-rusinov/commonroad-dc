@@ -2,7 +2,7 @@
 
 #include "collision/narrowphase/rectangle_obb.h"
 #include "collision/primitive_collision_checker.h"
-#include "collision/raytrace_utils.h"
+#include "collision/raytrace/raytrace_utils.h"
 #if ENABLE_SERIALIZER
 #include "collision/serialize/public/serialize_public.h"
 #endif

@@ -4,7 +4,7 @@
 #include <iostream>
 #include <vector>
 
-#include "collision/raytrace_primitive.h"
+#include "collision/raytrace/raytrace_primitive.h"
 
 namespace collision {
 namespace raytrace {

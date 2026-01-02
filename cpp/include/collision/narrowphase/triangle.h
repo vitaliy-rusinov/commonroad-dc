@@ -5,7 +5,7 @@
 #include <Eigen/Dense>
 #include <iostream>
 
-#include "collision/line_segment.h"
+#include "collision/raytrace/line_segment.h"
 #include "collision/narrowphase/shape.h"
 
 namespace collision {

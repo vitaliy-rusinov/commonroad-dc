@@ -7,7 +7,7 @@
 #include "collision/narrowphase/detail/obb.h"
 #include "collision/narrowphase/shape.h"
 
-#include "collision/line_segment.h"
+#include "collision/raytrace/line_segment.h"
 
 #include "detail/aabb.h"
 

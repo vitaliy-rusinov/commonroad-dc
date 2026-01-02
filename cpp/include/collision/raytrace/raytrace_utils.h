@@ -2,7 +2,7 @@
 #define CPP_COLLISION_RAYTRACE_UTILS_H_
 
 #include <Eigen/Dense>
-#include "collision/line_segment.h"
+#include "collision/raytrace/line_segment.h"
 #include "collision/narrowphase/point.h"
 
 namespace collision {

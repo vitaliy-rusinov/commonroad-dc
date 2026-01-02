@@ -5,7 +5,7 @@
 #include "collision/solvers/fcl/fcl_decl.h"
 #include "collision/solvers/fcl/fcl_transform.h"
 
-#include "collision/raytrace_utils.h"
+#include "collision/raytrace/raytrace_utils.h"
 
 namespace collision {
 

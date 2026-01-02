@@ -5,7 +5,7 @@
 
 #include <fcl/geometry/bvh/BVH_model.h>
 #include <math.h>
-#include "collision/raytrace_utils.h"
+#include "collision/raytrace/raytrace_utils.h"
 
 #include "collision/narrowphase/triangle.h"
 

@@ -1,11 +1,14 @@
 set(COLLISION_SRC
-        src/raytrace_primitive.cc
+        
         src/shape_group.cc
         src/collision_object.cc
         src/collision_checker.cc
         src/primitive_collision_checker.cc
-        src/raytrace_utils.cc
         src/time_variant_collision_object.cc
+
+        src/raytrace/raytrace_primitive.cc
+        src/raytrace/raytrace_utils.cc
+
         src/solvers/detail/collision_containers.cc
         src/solvers/collision_queries.cc
         src/solvers/trajectory_queries.cc
@@ -55,11 +58,9 @@ set(COLLISION_SRC
 
 set(COLLISION_HDR
         include/collision/collision_object_types.h
-        include/collision/raytrace_primitive.h
         include/collision/collision_object.h
         include/collision/i_collision_container.h
         include/collision/i_collision_checker.h
-        include/collision/raytrace_utils.h
         include/collision/application.h
         include/collision/application_settings.h
         include/collision/shape_group.h
@@ -68,7 +69,10 @@ set(COLLISION_HDR
         include/collision/plugins/triangulation/triangulate.h
         include/collision/primitive_collision_checker.h
         include/collision/time_variant_collision_object.h
-        include/collision/line_segment.h
+        
+        include/collision/raytrace/raytrace_primitive.h
+        include/collision/raytrace/line_segment.h
+        include/collision/raytrace/raytrace_utils.h
 
         include/collision/solvers/accelerators/declarations.h
         include/collision/solvers/accelerators/detail/container_grid.h

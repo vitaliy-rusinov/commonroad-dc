@@ -8,7 +8,7 @@
 
 #include "collision/narrowphase/shape.h"
 
-#include "collision/line_segment.h"
+#include "collision/raytrace/line_segment.h"
 
 namespace collision {
 /*!
