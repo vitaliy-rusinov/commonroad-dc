@@ -94,9 +94,9 @@ CollisionFunctionMatrix::CollisionFunctionMatrix(
   m_collide_bool_function[OBJ_TYPE_AABB_BOX][OBJ_TYPE_OBB_BOX] =
       solvers::solverPrimitive::collide_aabb_obb;
   m_collide_bool_function[OBJ_TYPE_AABB_BOX][OBJ_TYPE_SPHERE] =
-      solvers::solverFCL::collide_obj_obj;
+      solvers::solverPrimitive::collide_aabb_sphere;
   m_collide_bool_function[OBJ_TYPE_AABB_BOX][OBJ_TYPE_TRIANGLE] =
-      solvers::solverFCL::collide_obj_obj;
+      solvers::solverPrimitive::collide_aabb_triangle;
   m_collide_bool_function[OBJ_TYPE_AABB_BOX][OBJ_TYPE_POINT] =
       solvers::solverPrimitive::collide_aabb_point;
   m_collide_bool_function[OBJ_TYPE_AABB_BOX][OBJ_TYPE_POLYGON] =
@@ -111,11 +111,11 @@ CollisionFunctionMatrix::CollisionFunctionMatrix(
   m_collide_bool_function[OBJ_TYPE_OBB_BOX][OBJ_TYPE_OBB_BOX] =
       solvers::solverPrimitive::collide_obb_obb;
   m_collide_bool_function[OBJ_TYPE_OBB_BOX][OBJ_TYPE_SPHERE] =
-      solvers::solverFCL::collide_obj_obj;
+      solvers::solverPrimitive::collide_obb_sphere;
   m_collide_bool_function[OBJ_TYPE_OBB_BOX][OBJ_TYPE_TRIANGLE] =
-      solvers::solverFCL::collide_obj_obj;
+      solvers::solverPrimitive::collide_obb_triangle;
   m_collide_bool_function[OBJ_TYPE_OBB_BOX][OBJ_TYPE_POINT] =
-      solvers::solverFCL::collide_obj_obj;
+      solvers::solverPrimitive::collide_obb_point;
   m_collide_bool_function[OBJ_TYPE_OBB_BOX][OBJ_TYPE_POLYGON] =
       solvers::solverFCL::collide_obj_obj;
   m_collide_bool_function[OBJ_TYPE_OBB_BOX][OBJ_TYPE_SHAPEGROUP] =
@@ -124,13 +124,13 @@ CollisionFunctionMatrix::CollisionFunctionMatrix(
       solvers::solverFCL::collide_obj_tvobst;
 
   m_collide_bool_function[OBJ_TYPE_SPHERE][OBJ_TYPE_AABB_BOX] =
-      solvers::solverFCL::collide_obj_obj;
+      solvers::solverPrimitive::collide_sphere_aabb;
   m_collide_bool_function[OBJ_TYPE_SPHERE][OBJ_TYPE_OBB_BOX] =
-      solvers::solverFCL::collide_obj_obj;
+      solvers::solverPrimitive::collide_sphere_obb;
   m_collide_bool_function[OBJ_TYPE_SPHERE][OBJ_TYPE_SPHERE] =
-      solvers::solverFCL::collide_obj_obj;
+      solvers::solverPrimitive::collide_sphere_sphere;
   m_collide_bool_function[OBJ_TYPE_SPHERE][OBJ_TYPE_TRIANGLE] =
-      solvers::solverFCL::collide_obj_obj;
+      solvers::solverPrimitive::collide_sphere_triangle;
   m_collide_bool_function[OBJ_TYPE_SPHERE][OBJ_TYPE_POINT] =
       solvers::solverPrimitive::collide_sphere_point;
   m_collide_bool_function[OBJ_TYPE_SPHERE][OBJ_TYPE_POLYGON] =
@@ -141,15 +141,15 @@ CollisionFunctionMatrix::CollisionFunctionMatrix(
       solvers::solverFCL::collide_obj_tvobst;
 
   m_collide_bool_function[OBJ_TYPE_TRIANGLE][OBJ_TYPE_AABB_BOX] =
-      solvers::solverFCL::collide_obj_obj;
+      solvers::solverPrimitive::collide_triangle_aabb;
   m_collide_bool_function[OBJ_TYPE_TRIANGLE][OBJ_TYPE_OBB_BOX] =
-      solvers::solverFCL::collide_obj_obj;
+      solvers::solverPrimitive::collide_triangle_obb;
   m_collide_bool_function[OBJ_TYPE_TRIANGLE][OBJ_TYPE_SPHERE] =
-      solvers::solverFCL::collide_obj_obj;
+      solvers::solverPrimitive::collide_triangle_sphere;
   m_collide_bool_function[OBJ_TYPE_TRIANGLE][OBJ_TYPE_TRIANGLE] =
-      solvers::solverFCL::collide_obj_obj;
+      solvers::solverPrimitive::collide_triangle_triangle;
   m_collide_bool_function[OBJ_TYPE_TRIANGLE][OBJ_TYPE_POINT] =
-      solvers::solverFCL::collide_obj_obj;
+      solvers::solverPrimitive::collide_triangle_point;
   m_collide_bool_function[OBJ_TYPE_TRIANGLE][OBJ_TYPE_POLYGON] =
       solvers::solverFCL::collide_obj_obj;
   m_collide_bool_function[OBJ_TYPE_TRIANGLE][OBJ_TYPE_SHAPEGROUP] =
@@ -160,11 +160,11 @@ CollisionFunctionMatrix::CollisionFunctionMatrix(
   m_collide_bool_function[OBJ_TYPE_POINT][OBJ_TYPE_AABB_BOX] =
       solvers::solverPrimitive::collide_point_aabb;
   m_collide_bool_function[OBJ_TYPE_POINT][OBJ_TYPE_OBB_BOX] =
-      solvers::solverFCL::collide_obj_obj;
+      solvers::solverPrimitive::collide_point_obb;
   m_collide_bool_function[OBJ_TYPE_POINT][OBJ_TYPE_SPHERE] =
       solvers::solverPrimitive::collide_point_sphere;
   m_collide_bool_function[OBJ_TYPE_POINT][OBJ_TYPE_TRIANGLE] =
-      solvers::solverFCL::collide_obj_obj;
+      solvers::solverPrimitive::collide_point_triangle;
   m_collide_bool_function[OBJ_TYPE_POINT][OBJ_TYPE_POINT] =
       solvers::solverPrimitive::collide_point_point;
   m_collide_bool_function[OBJ_TYPE_POINT][OBJ_TYPE_POLYGON] =
