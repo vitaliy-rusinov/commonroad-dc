@@ -47,11 +47,6 @@ class Polygon : public Shape {
           triangulation::TriangulationQuality qual =
               triangulation::TriangulationQuality(),
           const Eigen::Vector2d &_center = Eigen::Vector2d(0, 0));
-  /*Polygon(std::vector<Eigen::Vector2d> &vertices, int triangulation_method,
-          triangulation::TriangulationQuality qual =
-              triangulation::TriangulationQuality(),
-          const Eigen::Vector2d &_center = Eigen::Vector2d(0, 0));
-	*/
 #endif
 
   Polygon(Polygon &&) = default;

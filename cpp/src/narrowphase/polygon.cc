@@ -42,24 +42,6 @@ Polygon::Polygon(std::vector<Eigen::Vector2d> &vertices,
   }
   invalidateCollisionEntityCache();
 }
-/*
-Polygon::Polygon(std::vector<Eigen::Vector2d> &vertices, int triangulation_method,
-                 triangulation::TriangulationQuality qual,
-                 const Eigen::Vector2d &_center)
-    : Shape(_center) {
-  vertices_ = vertices;
-  if (qual.bb_only) {
-    triangulation::do_triangulate_aabb(vertices, mesh_triangles_);
-  } else {
-    if (!qual.use_quality) {
-      triangulation::do_triangulate(vertices, mesh_triangles_, triangulation_method);
-    } else {
-      triangulation::do_triangulateQuality(vertices, mesh_triangles_, triangulation_method, qual);
-    }
-  }
-  invalidateCollisionEntityCache();
-}
-*/
 #endif
 
 bool Polygon::rayTrace(const Eigen::Vector2d &point1,
