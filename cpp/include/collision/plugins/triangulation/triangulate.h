@@ -16,6 +16,8 @@ enum TriangulationMethod {
 
 class TriangulationQuality {
  public:
+  TriangulationQuality(void) {
+  }
 
   TriangulationQuality(double mesh_quality_) {
     mesh_quality = mesh_quality_;
@@ -32,11 +34,11 @@ int do_triangulate_aabb(
     std::vector<collision::TriangleConstPtr> &triangles_out);
 
 int do_triangulate(std::vector<Eigen::Vector2d> vertices,
-                   std::vector<collision::TriangleConstPtr> &triangles_out, TriangulationMethod method);
+                   std::vector<collision::TriangleConstPtr> &triangles_out, int method);
 
 int do_triangulateQuality(
     std::vector<Eigen::Vector2d> vertices,
-    std::vector<collision::TriangleConstPtr> &triangles_out, TriangulationMethod method,
+    std::vector<collision::TriangleConstPtr> &triangles_out, int method,
     TriangulationQuality qual);
 }  // namespace triangulation
 }  // namespace collision

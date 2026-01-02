@@ -361,7 +361,7 @@ int do_triangulateQuality_gpc(
 */
 
 int do_triangulate(std::vector<Eigen::Vector2d> vertices,
-                   std::vector<collision::TriangleConstPtr> &triangles_out, TriangulationMethod method) {
+                   std::vector<collision::TriangleConstPtr> &triangles_out, int method) {
 
 	switch(method)
 	{
@@ -403,7 +403,7 @@ int do_triangulate(std::vector<Eigen::Vector2d> vertices,
 
 int do_triangulateQuality(
     std::vector<Eigen::Vector2d> vertices,
-    std::vector<collision::TriangleConstPtr> &triangles_out, TriangulationMethod method,
+    std::vector<collision::TriangleConstPtr> &triangles_out, int method,
     TriangulationQuality qual)
 {
 	switch(method)
