@@ -4,6 +4,12 @@
 #include "collision/narrowphase/rectangle_aabb.h"
 
 namespace collision {
+
+/*!
+  \brief Cache-friendly representation for an axis-aligned box
+
+*/
+
 class AABB {
  public:
   double x_min;

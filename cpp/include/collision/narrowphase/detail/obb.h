@@ -7,6 +7,12 @@
 
 namespace collision {
 namespace detail {
+
+/*!
+  \brief Cache-friendly representation for an oriented rectangle
+
+*/
+
 class OBB {
  public:
   OBB(const Eigen::Matrix2d& local_axes, const Eigen::Vector2d& r,

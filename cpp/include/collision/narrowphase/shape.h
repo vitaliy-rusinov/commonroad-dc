@@ -20,7 +20,10 @@ enum ShapeType {
 
 typedef ShapeType ShapeType;
 
-//! Base prototype for the shape of an obstacle
+/*!
+  \brief Base class for a shape
+
+*/
 class Shape : public CollisionObject, IFCLCollisionObject {
  public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
