@@ -13,6 +13,7 @@ class RandomObjectCreator:
         self.object_creator[3] = self.create_random_sphere
         self.object_creator[4] = self.create_random_triangle
         self.object_creator[5] = self.create_random_polygon
+        self.object_creator[6] = self.create_random_point
         self.grid_x_start = grid_x_start
         self.grid_x_end = grid_x_end
         self.grid_y_start = grid_y_start
@@ -83,6 +84,10 @@ class RandomObjectCreator:
         else:
             return pycrcc.Triangle(p1[0], p1[1], p3[0], p3[1], p2[0], p2[1])
 
+    def create_random_point(self):
+        p1 = self.generate_random_vector()
+        return pycrcc.Point(p1[0], p1[1])
+
     def create_random_invalid_triangle(self):
         v3=np.zeros(2)
         v1=np.zeros(2)
@@ -121,7 +126,7 @@ class RandomObjectCreator:
         return pycrcc.Polygon(vertex_list, list(), triangle_list)
 
     def create_random_shape(self):
-        obj_type = np.random.choice(range(6))
+        obj_type = np.random.choice(range(7))
         return self.create_random_shape_helper(obj_type)
 
     def create_random_shape_group(self, shape_count=-1):
@@ -155,15 +160,15 @@ class RandomObjectCreator:
         return tvobj
 
     def create_random_static_object(self):
-        obj_type = np.random.choice(range(7))
-        if obj_type == 6:
+        obj_type = np.random.choice(range(8))
+        if obj_type == 7:
             return self.create_random_shape_group()
 
         return self.create_random_shape()
 
     def create_random_object(self):
-        obj_type = np.random.choice(range(8))
-        if obj_type == 7:
+        obj_type = np.random.choice(range(9))
+        if obj_type == 8:
             return self.create_random_tvobst()
         return self.create_random_static_object()
 
