@@ -5,9 +5,12 @@
 #include <vector>
 #include "collision/raytrace_primitive.h"
 
-namespace collision
+namespace collision {
 
-{
+/**
+ * \brief Class for representing a LineSegment. Used for raytracing.
+
+ */
 
 class LineSegment {
  public:
