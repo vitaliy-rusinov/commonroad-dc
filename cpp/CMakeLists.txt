@@ -55,8 +55,6 @@ set(COLLISION_SRC
 
 set(COLLISION_HDR
         include/collision/collision_object_types.h
-        include/collision/i_collision_object_export.h
-        include/collision/i_collision_checker_export.h
         include/collision/raytrace_primitive.h
         include/collision/collision_object.h
         include/collision/i_collision_container.h

@@ -1,6 +1,6 @@
 #pragma once
 #include <s11n.net/s11n/s11nlite.hpp>
-#include "collision/i_collision_object_export.h"
+#include "collision/serialize/i_collision_object_export.h"
 
 namespace collision {
 class CollisionObject;

@@ -12,7 +12,7 @@
 #include "collision/application_settings.h"
 
 #if ENABLE_SERIALIZER
-#include "collision/i_collision_object_export.h"
+#include "collision/serialize/i_collision_object_export.h"
 #endif
 
 #include "collision/solvers/collision_requests.h"

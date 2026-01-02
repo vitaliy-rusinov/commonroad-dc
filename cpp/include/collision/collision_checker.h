@@ -14,7 +14,7 @@
 #include "collision/solvers/fcl/fcl_collision_checker.h"
 
 #if ENABLE_SERIALIZER
-#include "collision/i_collision_checker_export.h"
+#include "collision/serialize/i_collision_checker_export.h"
 #endif
 
 namespace collision {

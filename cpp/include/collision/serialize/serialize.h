@@ -4,7 +4,7 @@
 
 #if ENABLE_SERIALIZER
 
-#include "collision/i_collision_object_export.h"
+#include "collision/serialize/i_collision_object_export.h"
 
 
 #include "collision/serialize/shape_export.h"
