@@ -6,8 +6,6 @@ Shape::~Shape() {}
 
 Shape::Shape(const Shape &copy) : center_(copy.center()), radius_(copy.radius()) {}
 
-// void Shape::print(std::ostringstream &stream) const {}
-
 CollisionObjectConstPtr Shape::timeSlice(
     int time_idx, CollisionObjectConstPtr shared_ptr_this) const {
   return shared_ptr_this;

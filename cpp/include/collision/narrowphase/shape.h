@@ -63,9 +63,6 @@ class Shape : public CollisionObject, IFCLCollisionObject {
   //! Get radius
   double radius() const;
 
-  // virtual ShapeConstPtr scale(double factor) const = 0;
-  // virtual ShapeConstPtr shrink(double value) const = 0;
-
   virtual ~Shape();
 
 #if ENABLE_SERIALIZER
