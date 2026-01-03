@@ -7,6 +7,16 @@ namespace collision {
 namespace solvers {
 namespace solverDefault {
 
+/*!
+ \brief Helper function to check for a collision between a TimeVariantCollisionObject and a non-time-variant CollisionObject
+
+ \param[in] obj1 - first collision object
+ \param[in] obj2 - second collision object
+ \param[out] res - result of the collision checking
+ \param[in] req - parameters for collision detection
+
+*/
+
 std::size_t collide_tvobst_obj(const CollisionObject &obj1,
                                const CollisionObject &obj2,
                                CollisionResult &res,
@@ -40,12 +50,32 @@ std::size_t collide_tvobst_obj(const CollisionObject &obj1,
   return 0;
 }
 
+/*!
+ \brief Helper function to check for a collision between a non-time-variant CollisionObject and a TimeVariantCollisionObject
+
+ \param[in] obj1 - first collision object
+ \param[in] obj2 - second collision object
+ \param[out] res - result of the collision checking
+ \param[in] req - parameters for collision detection
+
+*/
+
 std::size_t collide_obj_tvobst(const CollisionObject &obj1,
                                const CollisionObject &obj2,
                                CollisionResult &res,
                                const CollisionRequest &req) {
   return collide_tvobst_obj(obj2, obj1, res, req);
 }
+
+/*!
+ \brief Helper function to check for a collision between two time-variant collision objects
+
+ \param[in] obj1 - first collision object
+ \param[in] obj2 - second collision object
+ \param[out] res - result of the collision checking
+ \param[in] req - parameters for collision detection
+
+*/
 
 std::size_t collide_tvobst_tvobst(const CollisionObject &obj1,
                                   const CollisionObject &obj2,
@@ -85,6 +115,11 @@ std::size_t collide_tvobst_tvobst(const CollisionObject &obj1,
 }
 }  // namespace solverDefault
 
+/*!
+ \brief Constructor that fills in pointers to functions to which the collision queries are to be dispatched.
+
+*/
+
 CollisionFunctionMatrix::CollisionFunctionMatrix(
     const solvers::DefaultSolver *solver) {
   memset(m_collide_bool_function, 0,
@@ -104,7 +139,7 @@ CollisionFunctionMatrix::CollisionFunctionMatrix(
   m_collide_bool_function[OBJ_TYPE_AABB_BOX][OBJ_TYPE_SHAPEGROUP] =
       solvers::solverFCL::collide_obj_shape_group;
   m_collide_bool_function[OBJ_TYPE_AABB_BOX][OBJ_TYPE_TVOBSTACLE] =
-      solvers::solverFCL::collide_obj_tvobst;
+      solvers::solverDefault::collide_obj_tvobst;
 
   m_collide_bool_function[OBJ_TYPE_OBB_BOX][OBJ_TYPE_AABB_BOX] =
       solvers::solverPrimitive::collide_obb_aabb;
@@ -121,7 +156,7 @@ CollisionFunctionMatrix::CollisionFunctionMatrix(
   m_collide_bool_function[OBJ_TYPE_OBB_BOX][OBJ_TYPE_SHAPEGROUP] =
       solvers::solverFCL::collide_obj_shape_group;
   m_collide_bool_function[OBJ_TYPE_OBB_BOX][OBJ_TYPE_TVOBSTACLE] =
-      solvers::solverFCL::collide_obj_tvobst;
+      solvers::solverDefault::collide_obj_tvobst;
 
   m_collide_bool_function[OBJ_TYPE_SPHERE][OBJ_TYPE_AABB_BOX] =
       solvers::solverPrimitive::collide_sphere_aabb;
@@ -138,7 +173,7 @@ CollisionFunctionMatrix::CollisionFunctionMatrix(
   m_collide_bool_function[OBJ_TYPE_SPHERE][OBJ_TYPE_SHAPEGROUP] =
       solvers::solverFCL::collide_obj_shape_group;
   m_collide_bool_function[OBJ_TYPE_SPHERE][OBJ_TYPE_TVOBSTACLE] =
-      solvers::solverFCL::collide_obj_tvobst;
+      solvers::solverDefault::collide_obj_tvobst;
 
   m_collide_bool_function[OBJ_TYPE_TRIANGLE][OBJ_TYPE_AABB_BOX] =
       solvers::solverPrimitive::collide_triangle_aabb;
@@ -155,7 +190,7 @@ CollisionFunctionMatrix::CollisionFunctionMatrix(
   m_collide_bool_function[OBJ_TYPE_TRIANGLE][OBJ_TYPE_SHAPEGROUP] =
       solvers::solverFCL::collide_obj_shape_group;
   m_collide_bool_function[OBJ_TYPE_TRIANGLE][OBJ_TYPE_TVOBSTACLE] =
-      solvers::solverFCL::collide_obj_tvobst;
+      solvers::solverDefault::collide_obj_tvobst;
 
   m_collide_bool_function[OBJ_TYPE_POINT][OBJ_TYPE_AABB_BOX] =
       solvers::solverPrimitive::collide_point_aabb;
@@ -172,7 +207,7 @@ CollisionFunctionMatrix::CollisionFunctionMatrix(
   m_collide_bool_function[OBJ_TYPE_POINT][OBJ_TYPE_SHAPEGROUP] =
       solvers::solverFCL::collide_obj_shape_group;
   m_collide_bool_function[OBJ_TYPE_POINT][OBJ_TYPE_TVOBSTACLE] =
-      solvers::solverFCL::collide_obj_tvobst;
+      solvers::solverDefault::collide_obj_tvobst;
 
   m_collide_bool_function[OBJ_TYPE_POLYGON][OBJ_TYPE_AABB_BOX] =
       solvers::solverFCL::collide_obj_obj;
@@ -189,7 +224,7 @@ CollisionFunctionMatrix::CollisionFunctionMatrix(
   m_collide_bool_function[OBJ_TYPE_POLYGON][OBJ_TYPE_SHAPEGROUP] =
       solvers::solverFCL::collide_obj_shape_group;
   m_collide_bool_function[OBJ_TYPE_POLYGON][OBJ_TYPE_TVOBSTACLE] =
-      solvers::solverFCL::collide_obj_tvobst;
+      solvers::solverDefault::collide_obj_tvobst;
 
   m_collide_bool_function[OBJ_TYPE_SHAPEGROUP][OBJ_TYPE_AABB_BOX] =
       solvers::solverFCL::collide_shape_group_obj;
@@ -206,24 +241,24 @@ CollisionFunctionMatrix::CollisionFunctionMatrix(
   m_collide_bool_function[OBJ_TYPE_SHAPEGROUP][OBJ_TYPE_SHAPEGROUP] =
       solvers::solverFCL::collide_shape_group_shape_group;
   m_collide_bool_function[OBJ_TYPE_SHAPEGROUP][OBJ_TYPE_TVOBSTACLE] =
-      solvers::solverFCL::collide_obj_tvobst;
+      solvers::solverDefault::collide_obj_tvobst;
 
   m_collide_bool_function[OBJ_TYPE_TVOBSTACLE][OBJ_TYPE_AABB_BOX] =
-      solvers::solverFCL::collide_tvobst_obj;
+      solvers::solverDefault::collide_tvobst_obj;
   m_collide_bool_function[OBJ_TYPE_TVOBSTACLE][OBJ_TYPE_OBB_BOX] =
-      solvers::solverFCL::collide_tvobst_obj;
+      solvers::solverDefault::collide_tvobst_obj;
   m_collide_bool_function[OBJ_TYPE_TVOBSTACLE][OBJ_TYPE_SPHERE] =
-      solvers::solverFCL::collide_tvobst_obj;
+      solvers::solverDefault::collide_tvobst_obj;
   m_collide_bool_function[OBJ_TYPE_TVOBSTACLE][OBJ_TYPE_TRIANGLE] =
-      solvers::solverFCL::collide_tvobst_obj;
+      solvers::solverDefault::collide_tvobst_obj;
   m_collide_bool_function[OBJ_TYPE_TVOBSTACLE][OBJ_TYPE_POINT] =
-      solvers::solverFCL::collide_tvobst_obj;
+      solvers::solverDefault::collide_tvobst_obj;
   m_collide_bool_function[OBJ_TYPE_TVOBSTACLE][OBJ_TYPE_POLYGON] =
-      solvers::solverFCL::collide_tvobst_obj;
+      solvers::solverDefault::collide_tvobst_obj;
   m_collide_bool_function[OBJ_TYPE_TVOBSTACLE][OBJ_TYPE_SHAPEGROUP] =
-      solvers::solverFCL::collide_tvobst_obj;
+      solvers::solverDefault::collide_tvobst_obj;
   m_collide_bool_function[OBJ_TYPE_TVOBSTACLE][OBJ_TYPE_TVOBSTACLE] =
-      solvers::solverFCL::collide_tvobst_tvobst;
+      solvers::solverDefault::collide_tvobst_tvobst;
 }
 }  // namespace solvers
 }  // namespace collision

@@ -11,6 +11,11 @@ namespace raytrace {
 
 using namespace std;
 
+/**
+ * \brief Class for representing a 2D Point. Used for raytracing.
+
+ */
+
 struct Point {
  public:
   Point();

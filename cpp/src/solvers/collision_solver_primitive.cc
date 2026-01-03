@@ -6,19 +6,17 @@ namespace collision {
 
 namespace solvers {
 namespace solverPrimitive {
-int not_implemented_error(const CollisionObject &obj1,
-		const CollisionObject &obj2, const char *solver_name) {
-	std::cout
-			<< std::string("collision function between object of types ")
-					+ std::to_string(obj1.getCollisionObjectType())
-					+ std::string(" and ")
-					+ std::to_string(obj2.getCollisionObjectType())
-					+ std::string("is not implemented in the solver ")
-					+ std::string(solver_name) << std::endl;
-	throw;
-	return 0;
-}
-// critical not to make mistakes
+
+/*!
+ \brief Helper function to check for a collision between two axis-aligned boxes
+
+ \param[in] obj1 - first collision object
+ \param[in] obj2 - second collision object
+ \param[out] res - result of the collision checking
+ \param[in] req - parameters for collision detection
+
+*/
+
 std::size_t collide_aabb_aabb(const CollisionObject &obj1,
 		const CollisionObject &obj2, CollisionResult &res,
 		const CollisionRequest &req) {
@@ -28,6 +26,17 @@ std::size_t collide_aabb_aabb(const CollisionObject &obj1,
 					static_cast<const RectangleAABB&>(obj2)));
 	return 0;
 }
+
+/*!
+ \brief Helper function to check for a collision between an axis-aligned box and an oriented box
+
+ \param[in] obj1 - first collision object
+ \param[in] obj2 - second collision object
+ \param[out] res - result of the collision checking
+ \param[in] req - parameters for collision detection
+
+*/
+
 std::size_t collide_aabb_obb(const CollisionObject &obj1,
 		const CollisionObject &obj2, CollisionResult &res,
 		const CollisionRequest &req) {
@@ -37,6 +46,16 @@ std::size_t collide_aabb_obb(const CollisionObject &obj1,
 					static_cast<const RectangleOBB&>(obj2)));
 	return 0;
 }
+
+/*!
+ \brief Helper function to check for a collision between an axis-aligned box and a circle
+
+ \param[in] obj1 - first collision object
+ \param[in] obj2 - second collision object
+ \param[out] res - result of the collision checking
+ \param[in] req - parameters for collision detection
+
+*/
 
 std::size_t collide_aabb_sphere(const CollisionObject &obj1,
 		const CollisionObject &obj2, CollisionResult &res,
@@ -48,6 +67,16 @@ std::size_t collide_aabb_sphere(const CollisionObject &obj1,
 	return 0;
 }
 
+/*!
+ \brief Helper function to check for a collision between an axis-aligned box and a Triangle
+
+ \param[in] obj1 - first collision object
+ \param[in] obj2 - second collision object
+ \param[out] res - result of the collision checking
+ \param[in] req - parameters for collision detection
+
+*/
+
 std::size_t collide_aabb_triangle(const CollisionObject &obj1,
 		const CollisionObject &obj2, CollisionResult &res,
 		const CollisionRequest &req) {
@@ -58,6 +87,16 @@ std::size_t collide_aabb_triangle(const CollisionObject &obj1,
 	return 0;
 }
 
+/*!
+ \brief Helper function to check for a collision between an axis-aligned box and a Point
+
+ \param[in] obj1 - first collision object
+ \param[in] obj2 - second collision object
+ \param[out] res - result of the collision checking
+ \param[in] req - parameters for collision detection
+
+*/
+
 std::size_t collide_aabb_point(const CollisionObject &obj1,
 		const CollisionObject &obj2, CollisionResult &res,
 		const CollisionRequest &req) {
@@ -67,6 +106,17 @@ std::size_t collide_aabb_point(const CollisionObject &obj1,
 					static_cast<const RectangleAABB&>(obj1)));
 	return 0;
 }
+
+/*!
+ \brief Helper function to check for a collision between an oriented box and an axis-aligned box
+
+ \param[in] obj1 - first collision object
+ \param[in] obj2 - second collision object
+ \param[out] res - result of the collision checking
+ \param[in] req - parameters for collision detection
+
+*/
+
 std::size_t collide_obb_aabb(const CollisionObject &obj1,
 		const CollisionObject &obj2, CollisionResult &res,
 		const CollisionRequest &req) {
@@ -76,6 +126,17 @@ std::size_t collide_obb_aabb(const CollisionObject &obj1,
 					static_cast<const RectangleOBB&>(obj1)));
 	return 0;
 }
+
+/*!
+ \brief Helper function to check for a collision between two oriented boxes
+
+ \param[in] obj1 - first collision object
+ \param[in] obj2 - second collision object
+ \param[out] res - result of the collision checking
+ \param[in] req - parameters for collision detection
+
+*/
+
 std::size_t collide_obb_obb(const CollisionObject &obj1,
 		const CollisionObject &obj2, CollisionResult &res,
 		const CollisionRequest &req) {
@@ -85,6 +146,16 @@ std::size_t collide_obb_obb(const CollisionObject &obj1,
 					static_cast<const RectangleOBB&>(obj2)));
 	return 0;
 }
+
+/*!
+ \brief Helper function to check for a collision between an oriented box and a circle
+
+ \param[in] obj1 - first collision object
+ \param[in] obj2 - second collision object
+ \param[out] res - result of the collision checking
+ \param[in] req - parameters for collision detection
+
+*/
 
 std::size_t collide_obb_sphere(const CollisionObject &obj1,
 		const CollisionObject &obj2, CollisionResult &res,
@@ -96,6 +167,16 @@ std::size_t collide_obb_sphere(const CollisionObject &obj1,
 	return 0;
 }
 
+/*!
+ \brief Helper function to check for a collision between an oriented box and a Triangle
+
+ \param[in] obj1 - first collision object
+ \param[in] obj2 - second collision object
+ \param[out] res - result of the collision checking
+ \param[in] req - parameters for collision detection
+
+*/
+
 std::size_t collide_obb_triangle(const CollisionObject &obj1,
 		const CollisionObject &obj2, CollisionResult &res,
 		const CollisionRequest &req) {
@@ -105,6 +186,16 @@ std::size_t collide_obb_triangle(const CollisionObject &obj1,
 					static_cast<const Triangle&>(obj2)));
 	return 0;
 }
+
+/*!
+ \brief Helper function to check for a collision between an oriented box and a Point
+
+ \param[in] obj1 - first collision object
+ \param[in] obj2 - second collision object
+ \param[out] res - result of the collision checking
+ \param[in] req - parameters for collision detection
+
+*/
 
 std::size_t collide_obb_point(const CollisionObject &obj1,
 		const CollisionObject &obj2, CollisionResult &res,
@@ -116,6 +207,16 @@ std::size_t collide_obb_point(const CollisionObject &obj1,
 	return 0;
 }
 
+/*!
+ \brief Helper function to check for a collision between a circle and an axis-aligned box
+
+ \param[in] obj1 - first collision object
+ \param[in] obj2 - second collision object
+ \param[out] res - result of the collision checking
+ \param[in] req - parameters for collision detection
+
+*/
+
 std::size_t collide_sphere_aabb(const CollisionObject &obj1,
 		const CollisionObject &obj2, CollisionResult &res,
 		const CollisionRequest &req) {
@@ -125,6 +226,16 @@ std::size_t collide_sphere_aabb(const CollisionObject &obj1,
 					static_cast<const Sphere&>(obj1)));
 	return 0;
 }
+
+/*!
+ \brief Helper function to check for a collision between a circle and an oriented box
+
+ \param[in] obj1 - first collision object
+ \param[in] obj2 - second collision object
+ \param[out] res - result of the collision checking
+ \param[in] req - parameters for collision detection
+
+*/
 
 std::size_t collide_sphere_obb(const CollisionObject &obj1,
 		const CollisionObject &obj2, CollisionResult &res,
@@ -136,6 +247,16 @@ std::size_t collide_sphere_obb(const CollisionObject &obj1,
 	return 0;
 }
 
+/*!
+ \brief Helper function to check for a collision between two circles
+
+ \param[in] obj1 - first collision object
+ \param[in] obj2 - second collision object
+ \param[out] res - result of the collision checking
+ \param[in] req - parameters for collision detection
+
+*/
+
 std::size_t collide_sphere_sphere(const CollisionObject &obj1,
 		const CollisionObject &obj2, CollisionResult &res,
 		const CollisionRequest &req) {
@@ -145,6 +266,16 @@ std::size_t collide_sphere_sphere(const CollisionObject &obj1,
 					static_cast<const Sphere&>(obj2)));
 	return 0;
 }
+
+/*!
+ \brief Helper function to check for a collision between a circle and a Triangle
+
+ \param[in] obj1 - first collision object
+ \param[in] obj2 - second collision object
+ \param[out] res - result of the collision checking
+ \param[in] req - parameters for collision detection
+
+*/
 
 std::size_t collide_sphere_triangle(const CollisionObject &obj1,
 		const CollisionObject &obj2, CollisionResult &res,
@@ -156,6 +287,16 @@ std::size_t collide_sphere_triangle(const CollisionObject &obj1,
 	return 0;
 }
 
+/*!
+ \brief Helper function to check for a collision between a circle and a Point
+
+ \param[in] obj1 - first collision object
+ \param[in] obj2 - second collision object
+ \param[out] res - result of the collision checking
+ \param[in] req - parameters for collision detection
+
+*/
+
 std::size_t collide_sphere_point(const CollisionObject &obj1,
 		const CollisionObject &obj2, CollisionResult &res,
 		const CollisionRequest &req) {
@@ -165,6 +306,16 @@ std::size_t collide_sphere_point(const CollisionObject &obj1,
 					static_cast<const Sphere&>(obj1)));
 	return 0;
 }
+
+/*!
+ \brief Helper function to check for a collision between a Triangle and an axis-aligned box
+
+ \param[in] obj1 - first collision object
+ \param[in] obj2 - second collision object
+ \param[out] res - result of the collision checking
+ \param[in] req - parameters for collision detection
+
+*/
 
 std::size_t collide_triangle_aabb(const CollisionObject &obj1,
 		const CollisionObject &obj2, CollisionResult &res,
@@ -176,6 +327,16 @@ std::size_t collide_triangle_aabb(const CollisionObject &obj1,
 	return 0;
 }
 
+/*!
+ \brief Helper function to check for a collision between a Triangle and an oriented box
+
+ \param[in] obj1 - first collision object
+ \param[in] obj2 - second collision object
+ \param[out] res - result of the collision checking
+ \param[in] req - parameters for collision detection
+
+*/
+
 std::size_t collide_triangle_obb(const CollisionObject &obj1,
 		const CollisionObject &obj2, CollisionResult &res,
 		const CollisionRequest &req) {
@@ -185,6 +346,16 @@ std::size_t collide_triangle_obb(const CollisionObject &obj1,
 					static_cast<const Triangle&>(obj1)));
 	return 0;
 }
+
+/*!
+ \brief Helper function to check for a collision between a Triangle and a circle
+
+ \param[in] obj1 - first collision object
+ \param[in] obj2 - second collision object
+ \param[out] res - result of the collision checking
+ \param[in] req - parameters for collision detection
+
+*/
 
 std::size_t collide_triangle_sphere(const CollisionObject &obj1,
 		const CollisionObject &obj2, CollisionResult &res,
@@ -196,6 +367,16 @@ std::size_t collide_triangle_sphere(const CollisionObject &obj1,
 	return 0;
 }
 
+/*!
+ \brief Helper function to check for a collision between two triangles
+
+ \param[in] obj1 - first collision object
+ \param[in] obj2 - second collision object
+ \param[out] res - result of the collision checking
+ \param[in] req - parameters for collision detection
+
+*/
+
 std::size_t collide_triangle_triangle(const CollisionObject &obj1,
 		const CollisionObject &obj2, CollisionResult &res,
 		const CollisionRequest &req) {
@@ -205,6 +386,16 @@ std::size_t collide_triangle_triangle(const CollisionObject &obj1,
 					static_cast<const Triangle&>(obj2)));
 	return 0;
 }
+
+/*!
+ \brief Helper function to check for a collision between a Triangle and a Point
+
+ \param[in] obj1 - first collision object
+ \param[in] obj2 - second collision object
+ \param[out] res - result of the collision checking
+ \param[in] req - parameters for collision detection
+
+*/
 
 std::size_t collide_triangle_point(const CollisionObject &obj1,
 		const CollisionObject &obj2, CollisionResult &res,
@@ -216,6 +407,16 @@ std::size_t collide_triangle_point(const CollisionObject &obj1,
 	return 0;
 }
 
+/*!
+ \brief Helper function to check for a collision between a Point and a axis-aligned box
+
+ \param[in] obj1 - first collision object
+ \param[in] obj2 - second collision object
+ \param[out] res - result of the collision checking
+ \param[in] req - parameters for collision detection
+
+*/
+
 std::size_t collide_point_aabb(const CollisionObject &obj1,
 		const CollisionObject &obj2, CollisionResult &res,
 		const CollisionRequest &req) {
@@ -225,6 +426,16 @@ std::size_t collide_point_aabb(const CollisionObject &obj1,
 					static_cast<const RectangleAABB&>(obj2)));
 	return 0;
 }
+
+/*!
+ \brief Helper function to check for a collision between a Point and an oriented box
+
+ \param[in] obj1 - first collision object
+ \param[in] obj2 - second collision object
+ \param[out] res - result of the collision checking
+ \param[in] req - parameters for collision detection
+
+*/
 
 std::size_t collide_point_obb(const CollisionObject &obj1,
 		const CollisionObject &obj2, CollisionResult &res,
@@ -237,6 +448,16 @@ std::size_t collide_point_obb(const CollisionObject &obj1,
 	return 0;
 }
 
+/*!
+ \brief Helper function to check for a collision between a Point and a circle
+
+ \param[in] obj1 - first collision object
+ \param[in] obj2 - second collision object
+ \param[out] res - result of the collision checking
+ \param[in] req - parameters for collision detection
+
+*/
+
 std::size_t collide_point_sphere(const CollisionObject &obj1,
 		const CollisionObject &obj2, CollisionResult &res,
 		const CollisionRequest &req) {
@@ -246,6 +467,16 @@ std::size_t collide_point_sphere(const CollisionObject &obj1,
 					static_cast<const Sphere&>(obj2)));
 	return 0;
 }
+
+/*!
+ \brief Helper function to check for a collision between a Point and a Triangle
+
+ \param[in] obj1 - first collision object
+ \param[in] obj2 - second collision object
+ \param[out] res - result of the collision checking
+ \param[in] req - parameters for collision detection
+
+*/
 
 std::size_t collide_point_triangle(const CollisionObject &obj1,
 		const CollisionObject &obj2, CollisionResult &res,
@@ -258,6 +489,16 @@ std::size_t collide_point_triangle(const CollisionObject &obj1,
 	return 0;
 }
 
+/*!
+ \brief Helper function to check for a collision between two Points
+
+ \param[in] obj1 - first collision object
+ \param[in] obj2 - second collision object
+ \param[out] res - result of the collision checking
+ \param[in] req - parameters for collision detection
+
+*/
+
 std::size_t collide_point_point(const CollisionObject &obj1,
 		const CollisionObject &obj2, CollisionResult &res,
 		const CollisionRequest &req) {
@@ -267,6 +508,17 @@ std::size_t collide_point_point(const CollisionObject &obj1,
 					static_cast<const Point&>(obj2)));
 	return 0;
 }
+
+/*!
+ \brief Helper function to check for a collision between a Polygon and a non-Polygon shape
+
+ \param[in] obj1 - first collision object
+ \param[in] obj2 - second collision object
+ \param[out] res - result of the collision checking
+ \param[in] req - parameters for collision detection
+
+*/
+
 
 std::size_t collide_polygon_obj(const CollisionObject &obj1,
 		const CollisionObject &obj2, CollisionResult &res,
@@ -287,6 +539,16 @@ std::size_t collide_polygon_obj(const CollisionObject &obj1,
 	}
 	return 0;
 }
+
+/*!
+ \brief Helper function to check for a collision between two Polygons
+
+ \param[in] obj1 - first collision object
+ \param[in] obj2 - second collision object
+ \param[out] res - result of the collision checking
+ \param[in] req - parameters for collision detection
+
+*/
 
 std::size_t collide_polygon_polygon(const CollisionObject &obj1,
 		const CollisionObject &obj2, CollisionResult &res,
@@ -312,11 +574,31 @@ std::size_t collide_polygon_polygon(const CollisionObject &obj1,
 	return 0;
 }
 
+/*!
+ \brief Helper function to check for a collision between a non-Polygon Shape and a Polygon
+
+ \param[in] obj1 - first collision object
+ \param[in] obj2 - second collision object
+ \param[out] res - result of the collision checking
+ \param[in] req - parameters for collision detection
+
+*/
+
 std::size_t collide_obj_polygon(const CollisionObject &obj1,
 		const CollisionObject &obj2, CollisionResult &res,
 		const CollisionRequest &req) {
 	return collide_polygon_obj(obj2, obj1, res, req);
 }
+
+/*!
+ \brief Helper function to check for a collision between a ShapeGroup and a Shape
+
+ \param[in] obj1 - first collision object
+ \param[in] obj2 - second collision object
+ \param[out] res - result of the collision checking
+ \param[in] req - parameters for collision detection
+
+*/
 
 std::size_t collide_shape_group_obj(const CollisionObject &obj1,
 		const CollisionObject &obj2, CollisionResult &res,
@@ -338,11 +620,31 @@ std::size_t collide_shape_group_obj(const CollisionObject &obj1,
 	return 0;
 }
 
+/*!
+ \brief Helper function to check for a collision between a Shape and a ShapeGroup
+
+ \param[in] obj1 - first collision object
+ \param[in] obj2 - second collision object
+ \param[out] res - result of the collision checking
+ \param[in] req - parameters for collision detection
+
+*/
+
 std::size_t collide_obj_shape_group(const CollisionObject &obj1,
 		const CollisionObject &obj2, CollisionResult &res,
 		const CollisionRequest &req) {
 	return collide_shape_group_obj(obj2, obj1, res, req);
 }
+
+/*!
+ \brief Helper function to check for a collision between two ShapeGroups
+
+ \param[in] obj1 - first collision object
+ \param[in] obj2 - second collision object
+ \param[out] res - result of the collision checking
+ \param[in] req - parameters for collision detection
+
+*/
 
 std::size_t collide_shape_group_shape_group(const CollisionObject &obj1,
 		const CollisionObject &obj2, CollisionResult &res,
@@ -370,6 +672,16 @@ std::size_t collide_shape_group_shape_group(const CollisionObject &obj1,
 	}
 	return 0;
 }
+
+/*!
+ \brief Helper function to check for a collision between a TimeVariantCollisionObject and a non-time-variant CollisionObject
+
+ \param[in] obj1 - first collision object
+ \param[in] obj2 - second collision object
+ \param[out] res - result of the collision checking
+ \param[in] req - parameters for collision detection
+
+*/
 
 std::size_t collide_tvobst_obj(const CollisionObject &obj1,
 		const CollisionObject &obj2, CollisionResult &res,
@@ -405,11 +717,31 @@ std::size_t collide_tvobst_obj(const CollisionObject &obj1,
 	return 0;
 }
 
+/*!
+ \brief Helper function to check for a collision between a non-time-variant CollisionObject and a TimeVariantCollisionObject
+
+ \param[in] obj1 - first collision object
+ \param[in] obj2 - second collision object
+ \param[out] res - result of the collision checking
+ \param[in] req - parameters for collision detection
+
+*/
+
 std::size_t collide_obj_tvobst(const CollisionObject &obj1,
 		const CollisionObject &obj2, CollisionResult &res,
 		const CollisionRequest &req) {
 	return collide_tvobst_obj(obj2, obj1, res, req);
 }
+
+/*!
+ \brief Helper function to check for a collision between two time-variant collision objects
+
+ \param[in] obj1 - first collision object
+ \param[in] obj2 - second collision object
+ \param[out] res - result of the collision checking
+ \param[in] req - parameters for collision detection
+
+*/
 
 std::size_t collide_tvobst_tvobst(const CollisionObject &obj1,
 		const CollisionObject &obj2, CollisionResult &res,
@@ -450,6 +782,11 @@ std::size_t collide_tvobst_tvobst(const CollisionObject &obj1,
 }
 
 }  // namespace solverPrimitive
+
+/*!
+ \brief Constructor that fills in pointers to functions to which the collision queries are to be dispatched.
+
+*/
 
 CollisionFunctionMatrix::CollisionFunctionMatrix(
 		const solvers::PrimitiveSolver *solver) {
