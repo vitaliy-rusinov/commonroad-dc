@@ -67,6 +67,7 @@ inline fcl::Transform3<FCL_PRECISION> fcl_get_3d_translation(
   return fcl::Transform3<FCL_PRECISION>(fcl::Translation3<FCL_PRECISION>(
       fcl::Vector3<FCL_PRECISION>(pos.x(), pos.y(), 0)));
 }
+
 inline bool fcl_collide(const fcl::CollisionObject<FCL_PRECISION> &object_A,
                         const fcl::CollisionObject<FCL_PRECISION> &object_B) {
   fcl::CollisionRequest<FCL_PRECISION> collisionRequest(
@@ -74,7 +75,7 @@ inline bool fcl_collide(const fcl::CollisionObject<FCL_PRECISION> &object_A,
   fcl::CollisionResult<FCL_PRECISION> collisionResult;
   collisionRequest.enable_cost = false;
   collisionRequest.gjk_solver_type = FCL_SOLVER_TYPE;
-  collide_with_validity_check(&object_A, &object_B, collisionRequest, collisionResult);
+  fcl_collide_with_validity_check(&object_A, &object_B, collisionRequest, collisionResult);
   return collisionResult.isCollision();
 }
 

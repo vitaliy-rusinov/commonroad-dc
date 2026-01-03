@@ -24,7 +24,7 @@ namespace solverFCL {
 CollisionObject *getParentPointerFromFclObj(
     const fcl::CollisionObject<FCL_PRECISION> *fcl_obj);
 
-inline std::size_t collide_with_validity_check(const fcl::CollisionObject<FCL_PRECISION>* o1, const fcl::CollisionObject<FCL_PRECISION>* o2,
+inline size_t fcl_collide_with_validity_check(const fcl::CollisionObject<FCL_PRECISION>* o1, const fcl::CollisionObject<FCL_PRECISION>* o2,
                     const fcl::CollisionRequest<FCL_PRECISION>& request,
                     fcl::CollisionResult<FCL_PRECISION>& result) {
 	const CollisionObject* obj1_entity=getParentPointerFromFclObj(o1);
@@ -36,6 +36,17 @@ inline std::size_t collide_with_validity_check(const fcl::CollisionObject<FCL_PR
 		return 0;
 	}
 	return collide(o1, o2, request, result);
+}
+
+inline void default_collide(const fcl::CollisionObject<FCL_PRECISION>* o1, const fcl::CollisionObject<FCL_PRECISION>* o2,
+                    fcl::CollisionResult<FCL_PRECISION>& result) {
+	const CollisionObject* obj1_entity=getParentPointerFromFclObj(o1);
+	const CollisionObject* obj2_entity=getParentPointerFromFclObj(o2);
+
+	// check for collision using the collision dispatcher, the objects are two primitive shapes
+	if (obj1_entity->collide(*obj2_entity, CollisionRequest(COL_DEFAULT))) {
+		result.addContact(fcl::Contact<double>());
+	}
 }
 
 class CollisionRequestData {};
@@ -277,11 +288,11 @@ bool defaultCollisionFunction(fcl::CollisionObject<S> *o1,
 
   if (cdata->done) return true;
 
-  collide_with_validity_check(o1, o2, request, result);
+  default_collide(o1, o2, result);
 
-  if (!request.enable_cost && (result.isCollision()) &&
-      (result.numContacts() >= request.num_max_contacts))
+  if (result.isCollision()) {
     cdata->done = true;
+  }
 
   return cdata->done;
 }
@@ -305,7 +316,7 @@ bool defaultCollisionFunctionOverlap(fcl::CollisionObject<S> *o1,
   auto search = checked_pairs.find(pair_obj);
   if (search != checked_pairs.end()) return false;
 
-  collide_with_validity_check(o1, o2, *request, *result);
+  default_collide(o1, o2, *result);
 
   checked_pairs.emplace(pair_obj);
 
@@ -392,7 +403,7 @@ bool defaultCollisionFunctionListOfObstacles(fcl::CollisionObject<S> *o1,
 
   if (!(cdata->self_reqData.testPair(pair_obj))) return false;
 
-  collide_with_validity_check(obst, subj, request, cdata->result);
+  default_collide(obst, subj, cdata->result);
 
   if (cdata->result.isCollision()) {
     cdata->set_result(true);

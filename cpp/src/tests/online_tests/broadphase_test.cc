@@ -25,7 +25,7 @@ bool is_borderline_case_sg_support(CollisionObjectConstPtr obj1,
 #define AABB_TOLERANCE_THRESHOLD 1e-10;
 
 // tests collision checker broadphase algorithms
-// all narrowphase checks are assumed to be done with FCL solver
+// all narrowphase checks are assumed to be done with default solver
 
 bool CollisionCheckerTest::test_collide(CollisionObjectConstPtr co,
                                         const CollisionChecker *cc) {
@@ -38,7 +38,7 @@ bool CollisionCheckerTest::test_collide(CollisionObjectConstPtr co,
   bool res_bruteforce = false;
 
   for (auto &obstacle : obstacles) {
-    if (obstacle->collide(*(co.get()), CollisionRequest(COL_FCL))) {
+    if (obstacle->collide(*(co.get()), CollisionRequest(COL_DEFAULT))) {
       res_bruteforce = true;
       break;
     }
@@ -61,7 +61,7 @@ bool CollisionCheckerTest::test_collide_obstacle(CollisionObjectConstPtr co,
   CollisionObjectConstPtr obst_primit = rect1;
   bool res_primitive = false;
   for (auto &c : cc->getObstacles()) {
-    if (c->collide(*co, CollisionRequest(COL_FCL))) {
+    if (c->collide(*co, CollisionRequest(COL_DEFAULT))) {
       obst_primit = c;
       res_primitive = true;
       break;
@@ -103,7 +103,7 @@ bool CollisionCheckerTest::test_collide_obstacles(
   std::vector<CollisionObjectConstPtr> obstacles_primit;
   bool res_primitive = false;
   for (auto &c : cc->getObstacles()) {
-    if (c->collide(*co, CollisionRequest(COL_FCL))) {
+    if (c->collide(*co, CollisionRequest(COL_DEFAULT))) {
       obstacles_primit.push_back(c);
       res_primitive = true;
     }
@@ -173,7 +173,7 @@ bool ShapeGroupTest::test_collide(CollisionObjectConstPtr co,
   bool res_bruteforce = false;
 
   for (auto &obstacle : obstacles) {
-    if (obstacle->collide(*(co.get()), CollisionRequest(COL_FCL))) {
+    if (obstacle->collide(*(co.get()), CollisionRequest(COL_DEFAULT))) {
       res_bruteforce = true;
       break;
     }
@@ -207,7 +207,7 @@ bool ShapeGroupTest::test_collide(const ShapeGroup *sg1,
   }
   for (auto obstacle1 : obstacles1) {
     for (auto obstacle2 : obstacles2) {
-      if (obstacle1->collide(*obstacle2, CollisionRequest(COL_FCL))) {
+      if (obstacle1->collide(*obstacle2, CollisionRequest(COL_DEFAULT))) {
         res_bruteforce = true;
         break;
       }
@@ -391,7 +391,7 @@ bool ShapeGroupTest::test_overlap_map(
   for (int cc1 = 0; cc1 < obstacles1.size(); cc1++) {
     for (int cc2 = 0; cc2 < obstacles2.size(); cc2++) {
       if (obstacles1[cc1]->collide(*obstacles2[cc2],
-                                   CollisionRequest(COL_FCL))) {
+                                   CollisionRequest(COL_DEFAULT))) {
         overlap_res2.emplace_back(cc1, cc2);
       }
     }
@@ -570,16 +570,16 @@ bool CollisionCheckerTest::run_test_collide_obstacles(
   if (!res) {
     CollisionChecker cc2;
     for (auto &obst : missed_obstacles) {
-      bool naive_collide = obst->collide(*co, CollisionRequest(COL_DEFAULT));
-      bool non_naive_collide = obst->collide(*co, CollisionRequest(COL_FCL));
+      bool naive_collide = obst->collide(*co, CollisionRequest(COL_PRIMITIVE));
+      bool non_naive_collide = obst->collide(*co, CollisionRequest(COL_DEFAULT));
       std::cout << "Warning [CollisionCheckerTest::run_test_collide_obstacles]: CollisionChecker broadphase missed an obstacle as "
     		  "compared to using bruteforce collision checking. This is not considered to be an error if there are objects with AABBs "
     		  "that intersect just on the border. Checking if this is the case...\n";
       cc2.addCollisionObject(obst);
     }
     for (auto &obst : missed_obstacles_primit) {
-      bool naive_collide = obst->collide(*co, CollisionRequest(COL_DEFAULT));
-      bool non_naive_collide = obst->collide(*co, CollisionRequest(COL_FCL));
+      bool naive_collide = obst->collide(*co, CollisionRequest(COL_PRIMITIVE));
+      bool non_naive_collide = obst->collide(*co, CollisionRequest(COL_DEFAULT));
       std::cout << "Warning [CollisionCheckerTest::run_test_collide_obstacles]: Bruteforce collision check missed an obstacle "
     		  "as compared to using FCL broadphase. Checking if there are objects with AABBs that intersect just on the border...\n";
     }
