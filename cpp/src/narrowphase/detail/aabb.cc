@@ -3,6 +3,13 @@
 
 namespace collision {
 
+/*!
+ \brief Returns if the AABB collides with another AABB
+
+ \param[in] other - other AABB
+
+*/
+
 bool AABB::collides(const AABB& other) {
   collision::detail::AABB_SAT2D a(*this);
   collision::detail::AABB_SAT2D b(*this);
