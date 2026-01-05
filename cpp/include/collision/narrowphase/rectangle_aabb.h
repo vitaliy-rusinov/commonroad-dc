@@ -19,19 +19,19 @@ class RectangleAABB : public Shape {
  public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
+  inline void set_up_segments(void) {
+	segments_.push_back(LineSegment(min_, Eigen::Vector2d(min_.x(), max_.y())));
+	segments_.push_back(LineSegment(Eigen::Vector2d(min_.x(), max_.y()), max_));
+	segments_.push_back(LineSegment(max_, Eigen::Vector2d(max_.x(), min_.y())));
+	segments_.push_back(LineSegment(Eigen::Vector2d(max_.x(), min_.y()), min_));
+  }
+
   RectangleAABB(double _rx, double _ry,
                 const Eigen::Vector2d &_center = Eigen::Vector2d(0, 0))
       : Shape(_center), r_(_rx, _ry) {
     min_ = center_ - r_;
     max_ = center_ + r_;
-
-    segments_.push_back(LineSegment(min_, Eigen::Vector2d(min_.x(), max_.y())));
-
-    segments_.push_back(LineSegment(Eigen::Vector2d(min_.x(), max_.y()), max_));
-
-    segments_.push_back(LineSegment(max_, Eigen::Vector2d(max_.x(), min_.y())));
-
-    segments_.push_back(LineSegment(Eigen::Vector2d(max_.x(), min_.y()), min_));
+    set_up_segments();
   }
 
   bool rayTrace(const Eigen::Vector2d &point1, const Eigen::Vector2d &point2,
