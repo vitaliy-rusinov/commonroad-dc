@@ -161,6 +161,8 @@ bool Polygon::isWithin(const Polygon &poly2) const {
 
 /*!
  \brief creates FCL collision geometry for a Polygon. This is a FCL library internal representation used for collision checking.
+ Invalid triangles are not added. If the polygon has no triangles added, it is considered to be invalid.
+ All collision functions will return false for an invalid Polygon
 
 */
 
@@ -190,6 +192,7 @@ fcl::CollisionGeometry<FCL_PRECISION> *Polygon::createFCLCollisionGeometry(
 		model->addTriangle(v1, v2, v3);
 	  }
 	  model->endModel();
+	  is_valid_ = true;
 	  return model;
   } else {
 	  is_valid_ = false;

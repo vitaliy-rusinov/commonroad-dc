@@ -199,6 +199,13 @@ void RectangleOBB::set_r_y(double _r_y) {
   set_up_segments();
 }
 
+void RectangleOBB::set_center(const Eigen::Vector2d &_center) {
+  center_ = _center;
+  invalidateCollisionEntityCache();
+  segments_.clear();
+  set_up_segments();
+}
+
 /*!
  \brief returns the orientation (CCW angle in radians between global x axis and the local x axis) of the RectangleOBB
 

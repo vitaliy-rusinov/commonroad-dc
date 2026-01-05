@@ -164,6 +164,7 @@ class RectangleOBB : public Shape {
   double r_x() const;
   double r_y() const;
 
+  void set_center(const Eigen::Vector2d &_center);
   void set_local_x_axis(const Eigen::Vector2d &x_axis);
   void set_local_y_axis(const Eigen::Vector2d &y_axis);
   void set_r_x(double _r_x);
