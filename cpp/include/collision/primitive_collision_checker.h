@@ -18,7 +18,7 @@ typedef std::shared_ptr<const PrimitiveCollisionChecker>
 /**
  * \brief PrimitiveCollisionChecker can group any kinds of CollisionObjects
  *
- * No accelerator structures are used to filter the number of collision checks
+ * The collisions are checked using the bruteforce method
  *
  */
 class PrimitiveCollisionChecker : public ICollisionChecker {

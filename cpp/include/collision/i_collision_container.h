@@ -4,6 +4,13 @@
 #include "collision/collision_object.h"
 
 namespace collision {
+
+/**
+ * \brief Interface with queryContainedObjectIndexList method. Used in fcl_collision_requests.h.
+ * ShapeGroup implements this interface.
+ *
+ */
+
 class ICollisionContainer {
  public:
   ICollisionContainer(){};
