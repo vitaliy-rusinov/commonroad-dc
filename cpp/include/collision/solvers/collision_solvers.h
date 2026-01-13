@@ -15,6 +15,11 @@ typedef std::size_t (*collide_bool_func_t)(const CollisionObject &obj1,
                                            CollisionResult &res,
                                            const CollisionRequest &req);
 
+/**
+ * \brief Class containing pointers to collision functions for different collision object types
+
+ */
+
 class CollisionFunctionMatrix {
  public:
   CollisionFunctionMatrix(const solvers::PrimitiveSolver* solver);

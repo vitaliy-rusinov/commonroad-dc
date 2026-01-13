@@ -9,7 +9,7 @@
 
 #include "collision/raytrace/line_segment.h"
 
-#include "detail/aabb.h"
+#include "collision/narrowphase/detail/aabb.h"
 
 namespace collision {
 /*!
@@ -40,6 +40,7 @@ class RectangleOBB : public Shape {
     segments_.push_back(LineSegment(_v4, _v1));
   }
 
+
   inline void compute_fastAABB(const Eigen::Vector2d &_v1,
                                const Eigen::Vector2d &_v2,
                                const Eigen::Vector2d &_v3,
@@ -64,22 +65,7 @@ class RectangleOBB : public Shape {
   }
 
   inline void compute_fastAABB(void) const {
-    double min_x = std::min(segments_[0].point1().x, segments_[1].point1().x);
-    double tmp = std::min(segments_[2].point1().x, segments_[3].point1().x);
-    fast_aabb_.x_min = std::min(min_x, tmp);
-
-    double min_y = std::min(segments_[0].point1().y, segments_[1].point1().y);
-    tmp = std::min(segments_[2].point1().y, segments_[3].point1().y);
-    fast_aabb_.y_min = std::min(min_y, tmp);
-
-    double max_x = std::max(segments_[0].point1().x, segments_[1].point1().x);
-    tmp = std::max(segments_[2].point1().x, segments_[3].point1().x);
-    fast_aabb_.x_max = std::max(max_x, tmp);
-
-    double max_y = std::max(segments_[0].point1().y, segments_[1].point1().y);
-    tmp = std::max(segments_[2].point1().y, segments_[3].point1().y);
-    fast_aabb_.y_max = std::max(max_y, tmp);
-
+	computeAABB(fast_aabb_);
     is_fastAABB_cached_ = true;
   }
 
@@ -130,6 +116,8 @@ class RectangleOBB : public Shape {
     }
     return fast_aabb_;
   }
+
+  void computeAABB(AABB& aabb) const;
 
   virtual CollisionObjectType getCollisionObjectType() const {
     return CollisionObjectType::OBJ_TYPE_OBB_BOX;

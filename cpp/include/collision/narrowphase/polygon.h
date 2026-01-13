@@ -10,6 +10,7 @@
 #include "collision/narrowphase/triangle.h"
 #include "collision/plugins/triangulation/triangulate.h"
 #include "collision/solvers/boost/boost_object_internal.h"
+#include "collision/narrowphase/detail/aabb.h"
 
 namespace collision {
 
@@ -82,6 +83,8 @@ class Polygon : public Shape {
   }
 
   solvers::solverBoost::BoostPolygon* getOrCreateBoostPolygon(void) const;
+
+  void computeAABB(AABB& aabb) const;
 
 #if ENABLE_SERIALIZER
   serialize::ICollisionObjectExport *exportThis(void) const override;

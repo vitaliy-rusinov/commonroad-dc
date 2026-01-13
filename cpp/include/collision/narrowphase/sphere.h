@@ -5,6 +5,7 @@
 #include <iostream>
 
 #include "collision/narrowphase/shape.h"
+#include "collision/narrowphase/detail/aabb.h"
 
 namespace collision {
 /*!
@@ -55,6 +56,8 @@ class Sphere : public Shape {
   double get_y() const { return center_(1); };
 
   ShapeType type() const;
+
+  void computeAABB(AABB& aabb) const;
 
 #if ENABLE_SERIALIZER
   serialize::ICollisionObjectExport *exportThis(void) const override;

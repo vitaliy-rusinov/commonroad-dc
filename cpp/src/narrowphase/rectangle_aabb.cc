@@ -275,6 +275,16 @@ double RectangleAABB::squareDisToPoint(const Eigen::Vector2d &p) const {
   return sq_dis;
 }
 
+/*!
+ \brief Compute axis-aligned bounding box directly.
+ The function must not change state because it is to be called from multicore-computation functions.
+
+*/
+
+void RectangleAABB::computeAABB(AABB& aabb) const {
+	aabb = AABB(*this);
+}
+
 #if ENABLE_SERIALIZER
 
 namespace serialize {

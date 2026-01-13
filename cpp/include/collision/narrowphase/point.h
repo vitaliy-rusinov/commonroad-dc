@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "collision/narrowphase/shape.h"
+#include "collision/narrowphase/detail/aabb.h"
 
 namespace collision {
 
@@ -43,6 +44,8 @@ class Point : public Shape {
       const override;
 
   ShapeType type() const;
+
+  void computeAABB(AABB& aabb) const;
 
 #if ENABLE_SERIALIZER
   serialize::ICollisionObjectExport *exportThis(void) const override;

@@ -7,6 +7,12 @@
 
 namespace collision {
 namespace detail {
+
+/**
+ * \brief Cache-friendly axis-aligned box class that supports collision checks in 2D using the Separating Axis Theorem
+
+ */
+
 class AABB_SAT2D {
  public:
   AABB_SAT2D(void) : x(0), y(0), half_width(0), half_height(0) {}

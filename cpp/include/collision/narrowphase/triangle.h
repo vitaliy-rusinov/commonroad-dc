@@ -7,6 +7,7 @@
 
 #include "collision/raytrace/line_segment.h"
 #include "collision/narrowphase/shape.h"
+#include "collision/narrowphase/detail/aabb.h"
 
 namespace collision {
 
@@ -78,6 +79,8 @@ class Triangle : public Shape {
   bool is_valid() const override {
 	  return is_valid_;
   }
+
+  void computeAABB(AABB& aabb) const;
 
  private:
   fcl::CollisionGeometry<FCL_PRECISION> *createFCLCollisionGeometry(

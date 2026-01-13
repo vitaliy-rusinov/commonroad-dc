@@ -152,6 +152,20 @@ void Sphere::set_radius(double _radius) {
 
 ShapeType Sphere::type() const { return type_; }
 
+/*!
+ \brief Compute axis-aligned bounding box directly.
+ The function must not change state because it is to be called from multicore-computation functions.
+
+*/
+
+void Sphere::computeAABB(AABB& aabb) const {
+	double min_x = center_x() - radius();
+	double min_y = center_y() - radius();
+	double max_x = center_x() + radius();
+	double max_y = center_y() + radius();
+	aabb = AABB(min_x, max_x, min_y, max_y);
+}
+
 #if ENABLE_SERIALIZER
 
 namespace serialize {

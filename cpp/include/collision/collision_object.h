@@ -28,6 +28,7 @@
 
 namespace collision {
 
+class AABB;
 class Shape;
 class Point;
 class RectangleAABB;
@@ -117,6 +118,8 @@ class CollisionObject : public std::enable_shared_from_this<CollisionObject> {
     virtual bool BVCheck(CollisionObjectConstPtr obj2) const;
 
     virtual std::shared_ptr<const collision::RectangleAABB> getAABB() const;
+
+    virtual void computeAABB(AABB& aabb) const;
 
     virtual int getSolverEntity(solvers::solverFCL::SolverEntity_FCL *&ptr) const;
 

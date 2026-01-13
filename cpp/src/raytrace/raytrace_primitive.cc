@@ -9,12 +9,8 @@
 namespace collision {
 namespace raytrace {
 
-Point::Point() {
-  x = 0;
-  y = 0;
-};
+Point::Point() {};
 Point::Point(const Eigen::Vector2d &pnt) : x(pnt.x()), y(pnt.y()){};
-Point::Point(const Point &pnt) : x(pnt.x), y(pnt.y){};
 
 // Adapted from
 // http://csharphelper.com/blog/2014/09/determine-where-a-line-intersects-a-circle-in-c/

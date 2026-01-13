@@ -132,6 +132,7 @@ bool CollisionObject::BVCheck(CollisionObjectConstPtr obj2) const {
 
 /*!
  \brief Gets the axis-aligned bounding box for this CollisionObject. It works only for simple Shapes.
+ Uses FCL library representation to compute the AABB or gets the cached AABB (previously computed using FCL representation).
 
 */
 
@@ -182,4 +183,10 @@ int CollisionObject::getSolverEntity(SolverEntity_FCL *&ptr) const {
     return 0;
   }
 }
+
+void CollisionObject::computeAABB(AABB& aabb) const {
+	throw std::runtime_error("CollisionObject::computeAABB not implemented");
+}
+
+
 }  // namespace collision

@@ -10,6 +10,8 @@
 
 #include "collision/raytrace/line_segment.h"
 
+#include "collision/narrowphase/detail/aabb.h"
+
 namespace collision {
 /*!
   \brief Axis-aligned rectangle
@@ -86,6 +88,8 @@ class RectangleAABB : public Shape {
   double squareDisToPoint(const Eigen::Vector2d &p) const;
 
   std::vector<LineSegment> segments(void) const { return segments_; };
+
+  void computeAABB(AABB& aabb) const;
 
  private:
   // Center-radius representation

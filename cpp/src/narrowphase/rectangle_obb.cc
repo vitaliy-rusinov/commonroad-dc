@@ -257,6 +257,30 @@ double RectangleOBB::squareDisToPoint(const Eigen::Vector2d &p) const {
   return sq_dis;
 }
 
+/*!
+ \brief Compute axis-aligned bounding box directly.
+ The function must not change state because it is to be called from multicore-computation functions.
+
+*/
+
+void RectangleOBB::computeAABB(AABB& aabb) const {
+	 double min_x = std::min(segments_[0].point1().x, segments_[1].point1().x);
+	 double tmp = std::min(segments_[2].point1().x, segments_[3].point1().x);
+	 aabb.x_min = std::min(min_x, tmp);
+
+	 double min_y = std::min(segments_[0].point1().y, segments_[1].point1().y);
+	 tmp = std::min(segments_[2].point1().y, segments_[3].point1().y);
+	 aabb.y_min = std::min(min_y, tmp);
+
+	 double max_x = std::max(segments_[0].point1().x, segments_[1].point1().x);
+	 tmp = std::max(segments_[2].point1().x, segments_[3].point1().x);
+	 aabb.x_max = std::max(max_x, tmp);
+
+	 double max_y = std::max(segments_[0].point1().y, segments_[1].point1().y);
+	 tmp = std::max(segments_[2].point1().y, segments_[3].point1().y);
+	 aabb.y_max = std::max(max_y, tmp);
+ }
+
 #if ENABLE_SERIALIZER
 
 namespace serialize {

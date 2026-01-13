@@ -255,6 +255,44 @@ BoostPolygon* Polygon::getOrCreateBoostPolygon(void) const {
 	return static_cast<BoostPolygon*>(boost_polygon_.get());
 }
 
+/*!
+ \brief Computer axis-aligned bounding box directly.
+ The function must not change state because it is to be called from multicore-computation functions.
+
+*/
+
+void Polygon::computeAABB(AABB& aabb) const {
+    double min_x = std::numeric_limits<double>::max();
+    double max_x = std::numeric_limits<double>::min();
+    double min_y = std::numeric_limits<double>::max();
+    double max_y = std::numeric_limits<double>::min();
+	for (const auto& tri : mesh_triangles_) {
+		if (tri->is_valid()) {
+			AABB cur_aabb;
+			tri->computeAABB(cur_aabb);
+			double cur_min_x = cur_aabb.x_min;
+			double cur_min_y = cur_aabb.y_min;
+			double cur_max_x = cur_aabb.x_max;
+			double cur_max_y = cur_aabb.y_max;
+			min_x = std::min(min_x, cur_min_x);
+			min_y = std::min(min_y, cur_min_y);
+			max_x = std::max(max_x, cur_max_x);
+			max_y = std::max(max_y, cur_max_y);
+		}
+	}
+	if (min_x == std::numeric_limits<double>::max()) {
+		aabb.x_min = 0;
+		aabb.x_max = 0;
+		aabb.y_min = 0;
+		aabb.y_max = 0;
+	} else {
+		aabb.x_min = min_x;
+		aabb.x_max = max_x;
+		aabb.y_min = min_y;
+		aabb.y_max = max_y;
+	}
+}
+
 #if ENABLE_SERIALIZER
 
 namespace serialize {

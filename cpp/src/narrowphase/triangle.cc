@@ -212,18 +212,15 @@ The function sets the is_valid_ member field. If the is_valid_ field is set to f
 
 void Triangle::compute_is_valid() {
 	double area = 0.0;
-	area += (v1().x() * v2().y() - v2().x() * v1().y());
-	area += (v2().x() * v3().y() - v3().x() * v2().y());
-	area += (v3().x() * v1().y() - v1().x() * v3().y());
+	area += (v1_.x() * v2_.y() - v2_.x() * v1_.y());
+	area += (v2_.x() * v3_.y() - v3_.x() * v2_.y());
+	area += (v3_.x() * v1_.y() - v1_.x() * v3_.y());
 
 	area = fabs(area / 2.0);
 
-	auto side1 = v2() - v1();
-	auto side2 = v3() - v1();
-	auto side3 = v3() - v2();
-	double side1_sqn = side1.squaredNorm();
-	double side2_sqn = side2.squaredNorm();
-	double side3_sqn = side3.squaredNorm();
+	double side1_sqn = (v2_ - v1_).squaredNorm();
+	double side2_sqn = (v3_ - v1_).squaredNorm();
+	double side3_sqn = (v3_ - v2_).squaredNorm();
 
 	auto max_side = sqrt(std::max( { side1_sqn, side2_sqn, side3_sqn }));
 	auto min_side = sqrt(std::min( { side1_sqn, side2_sqn, side3_sqn }));
@@ -254,6 +251,20 @@ void Triangle::compute_incircle_radius_and_center() {
   incenter_ = (b * v1_ + c * v2_ + a * v3_) / (2.0 * p);
   // inradius
   incircle_radius_ = area / p;
+}
+
+/*!
+ \brief Compute axis-aligned bounding box directly.
+ The function must not change state because it is to be called from multicore-computation functions.
+
+*/
+
+void Triangle::computeAABB(AABB& aabb) const {
+	double min_x = std::min({v1_.x(), v2_.x(), v3_.x()});
+	double min_y = std::min({v1_.y(), v2_.y(), v3_.y()});
+	double max_x = std::max({v1_.x(), v2_.x(), v3_.x()});
+	double max_y = std::max({v1_.y(), v2_.y(), v3_.y()});
+	aabb = AABB(min_x, max_x, min_y, max_y);
 }
 
 #if ENABLE_SERIALIZER
