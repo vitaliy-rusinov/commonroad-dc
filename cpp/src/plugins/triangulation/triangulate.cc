@@ -51,9 +51,9 @@ int do_triangulate_aabb(
     std::vector<Eigen::Vector2d> vertices,
     std::vector<collision::TriangleConstPtr> &triangles_out) {
   double min_x = std::numeric_limits<double>::max();
-  double max_x = std::numeric_limits<double>::min();
+  double max_x = -1 * std::numeric_limits<double>::max();
   double min_y = std::numeric_limits<double>::max();
-  double max_y = std::numeric_limits<double>::min();
+  double max_y = -1 * std::numeric_limits<double>::max();
   for (auto vert : vertices) {
     min_x = std::min(min_x, vert(0));
     min_y = std::min(min_y, vert(1));

@@ -73,9 +73,9 @@ class ContainerFCL {
       addObject(obj);
     }
     double min_x = std::numeric_limits<double>::max();
-    double max_x = std::numeric_limits<double>::min();
+    double max_x = -1 * std::numeric_limits<double>::max();
     double min_y = std::numeric_limits<double>::max();
-    double max_y = std::numeric_limits<double>::min();
+    double max_y = -1 * std::numeric_limits<double>::max();
     for (auto obj : objects_in) {
       AABB aabb = getAABB(obj);
 

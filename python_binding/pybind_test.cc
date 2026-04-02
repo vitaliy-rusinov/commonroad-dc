@@ -52,4 +52,11 @@ void export_test(nb::module_ &module) {
 		collision::CollisionRequest req(static_cast<collision::CollisionSolverType>(solver_type));
 		return obj1->collide(*obj2, req);
 	});
+
+	mtest.def("computeAABB", [](collision::CollisionObjectConstPtr obj) {
+		collision::AABB ret;
+		obj->computeAABB(ret);
+		Eigen::Vector2d center {(ret.x_max + ret.x_min)/2, (ret.y_max + ret.y_min)/2};
+		return collision::RectangleAABBConstPtr(new collision::RectangleAABB((ret.x_max - ret.x_min)/2, (ret.y_max - ret.y_min)/2, center));
+	});
 }

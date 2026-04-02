@@ -48,9 +48,9 @@ inline int getBestGridOrientationAndBounds(
     aligned_vector<collision::CollisionObject*> objects_in, AABB& bounds,
     int& orientation) {
   double min_x = std::numeric_limits<double>::max();
-  double max_x = std::numeric_limits<double>::min();
+  double max_x = -1 * std::numeric_limits<double>::max();
   double min_y = std::numeric_limits<double>::max();
-  double max_y = std::numeric_limits<double>::min();
+  double max_y = -1 * std::numeric_limits<double>::max();
   if (objects_in.size() == 0) {
     min_x = 0;
     max_x = 0;

@@ -35,19 +35,27 @@ std::shared_ptr<const collision::RectangleAABB> ShapeGroup::getAABB() const {
     return RectangleAABBConstPtr(new RectangleAABB(0, 0));
   else {
     double min_x = std::numeric_limits<double>::max();
-    double max_x = std::numeric_limits<double>::min();
+    double max_x = -1 * std::numeric_limits<double>::max();
     double min_y = std::numeric_limits<double>::max();
-    double max_y = std::numeric_limits<double>::min();
+    double max_y = -1 * std::numeric_limits<double>::max();
     for (auto el : shapes_) {
       auto cur_aabb = el->getAABB();
       double cur_min_x = cur_aabb->min()(0);
       double cur_min_y = cur_aabb->min()(1);
       double cur_max_x = cur_aabb->max()(0);
       double cur_max_y = cur_aabb->max()(1);
+      if (cur_min_x == cur_max_x && cur_min_y == cur_max_y) {
+    	  // invalid Polygon
+    	  continue;
+      }
       min_x = std::min(min_x, cur_min_x);
       min_y = std::min(min_y, cur_min_y);
       max_x = std::max(max_x, cur_max_x);
       max_y = std::max(max_y, cur_max_y);
+    }
+    if (min_x == std::numeric_limits<double>::max()) {
+    	// no valid shapes
+    	min_x = min_y = max_x = max_y = 0;
     }
     Eigen::Vector2d center((min_x + max_x) / 2, (min_y + max_y) / 2);
     double radius_x = (max_x - min_x) / 2;

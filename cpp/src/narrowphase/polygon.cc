@@ -110,6 +110,7 @@ Polygon::Polygon(const Polygon &copy) : Shape(copy) {
   vertices_ = copy.getVertices();
   hole_vertices_ = copy.getHoleVertices();
   mesh_triangles_ = copy.getTriangleMesh();
+  is_valid_ = copy.is_valid();
   invalidateCollisionEntityCache();
 }
 
@@ -256,16 +257,17 @@ BoostPolygon* Polygon::getOrCreateBoostPolygon(void) const {
 }
 
 /*!
- \brief Computer axis-aligned bounding box directly.
+ \brief Compute axis-aligned bounding box directly.
  The function must not change state because it is to be called from multicore-computation functions.
 
 */
 
 void Polygon::computeAABB(AABB& aabb) const {
     double min_x = std::numeric_limits<double>::max();
-    double max_x = std::numeric_limits<double>::min();
+    double max_x = -1 * std::numeric_limits<double>::max();
     double min_y = std::numeric_limits<double>::max();
-    double max_y = std::numeric_limits<double>::min();
+    double max_y = -1 * std::numeric_limits<double>::max();
+    size_t num_valid_tris = 0;
 	for (const auto& tri : mesh_triangles_) {
 		if (tri->is_valid()) {
 			AABB cur_aabb;
@@ -278,9 +280,10 @@ void Polygon::computeAABB(AABB& aabb) const {
 			min_y = std::min(min_y, cur_min_y);
 			max_x = std::max(max_x, cur_max_x);
 			max_y = std::max(max_y, cur_max_y);
+			num_valid_tris++;
 		}
 	}
-	if (min_x == std::numeric_limits<double>::max()) {
+	if (!num_valid_tris) {
 		aabb.x_min = 0;
 		aabb.x_max = 0;
 		aabb.y_min = 0;
