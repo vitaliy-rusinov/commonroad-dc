@@ -4,6 +4,8 @@ from collision.trajectory_queries_test import run_test as run_test_trajectory_qu
 from collision.trajectory_broadphase_tests import run_test as run_trajectory_broadphase_tests
 from collision.trajectory_narrowphase_tests import run_test as run_trajectory_narrowphase_tests
 from collision.trajectory_test_empty_sg import run_test as run_trajectory_test_empty_sg
+from collision.test_invalid_triangle import run_test_invalid_triangle
+from collision.test_triangle_polygon_vertex_reordering import run_test_triangle_polygon_reordering
 
 has_error = False
 
@@ -29,4 +31,12 @@ if run_trajectory_narrowphase_tests() == True:
 
 print("Running trajectory queries for empty ShapeGroups tests...")
 if run_trajectory_test_empty_sg() == True:
+    exit(1)
+
+print("Running triangle validity check tests...")
+if run_test_invalid_triangle() == True:
+    exit(1)
+
+print("Running triangle and polygon vertex reordering tests...")
+if run_test_triangle_polygon_reordering() == True:
     exit(1)

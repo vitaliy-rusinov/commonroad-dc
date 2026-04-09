@@ -102,6 +102,8 @@ class Polygon : public Shape {
       const std::shared_ptr<fcl::CollisionGeometry<FCL_PRECISION>> &)
       const override;
 
+  void validate_ring_ordering();
+
   mutable std::unique_ptr<solvers::solverBoost::BoostObjectInternal> boost_polygon_;
   mutable bool has_boost_polygon_ = false;
   std::vector<Eigen::Vector2d> vertices_;
