@@ -5,7 +5,10 @@ import Polygon as gpc
 import Polygon.Utils
 
 # commonroad
-from commonroad.geometry.shape import Polygon, ShapeGroup, Rectangle
+from commonroad.geometry.occupancy.occupancy_group import OccupancyGroup
+from commonroad.geometry.occupancy.polygon_occupancy import PolygonOccupancy
+from commonroad.geometry.occupancy.rect_occupancy import RectOccupancy
+
 from commonroad.scenario.obstacle import StaticObstacle, ObstacleType
 from commonroad.scenario.scenario import Scenario
 from commonroad.scenario.state import InitialState
@@ -323,13 +326,18 @@ def construct_boundary_obstacle_obb_rectangles(scenario: Scenario, width=1e-5, o
         return remove_border_rect(sg_rectangles)
     else:
         return sg_rectangles
-
+"""
 def postprocess_create_static_obstacle_triangles(scenario: Scenario, shape_group: pycrcc.ShapeGroup):
     initial_state = InitialState(position=np.array([0, 0]), orientation=0.0, time_step=0, velocity=0, acceleration=0,
                                  yaw_rate=0, slip_angle=0)
     road_boundary_shape_list = list()
     for r in shape_group.unpack():
-        p = Polygon(np.array(r.vertices()))
+        verts = []
+        for vert in r.vertices():
+                vert_tuple = (vert[0], vert[1])
+                verts.append(vert_tuple)
+        verts = tuple(verts)
+        p = PolygonObstacleShape(vertices=np.array()))
         road_boundary_shape_list.append(p)
     road_boundary_obstacle = StaticObstacle(obstacle_id=scenario.generate_object_id(),
                                             obstacle_type=ObstacleType.ROAD_BOUNDARY,
@@ -350,7 +358,7 @@ def postprocess_create_static_obstacle_obb_rectangles(scenario: Scenario, shape_
                                             obstacle_shape=ShapeGroup(road_boundary_shape_list),
                                             initial_state=initial_state)
     return road_boundary_obstacle
-
+"""
 
 def construct_boundary_obstacle(scenario: Scenario, method, return_scenario_obstacle, kwargs):
     build_func_dict = {
@@ -358,17 +366,19 @@ def construct_boundary_obstacle(scenario: Scenario, method, return_scenario_obst
         'aligned_triangulation': construct_boundary_obstacle_aligned_triangulation,
         'obb_rectangles': construct_boundary_obstacle_obb_rectangles,
     }
+    """
     postprocess_obstacle_func_dict = {
         'triangulation': postprocess_create_static_obstacle_triangles,
         'aligned_triangulation': postprocess_create_static_obstacle_triangles,
         'obb_rectangles': postprocess_create_static_obstacle_obb_rectangles,
     }
-
+    """
     obstacle = build_func_dict[method](scenario, **kwargs)
-
+    """
     if return_scenario_obstacle:
         scenario_obstacle = postprocess_obstacle_func_dict[method](scenario, obstacle)
         return scenario_obstacle, obstacle
+    """
     return obstacle
 
 

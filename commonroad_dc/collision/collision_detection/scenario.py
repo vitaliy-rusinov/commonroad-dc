@@ -1,7 +1,7 @@
 import math
 import warnings
 
-import commonroad.geometry.shape
+import commonroad.geometry.occupancy
 import commonroad.prediction
 import commonroad.scenario.obstacle
 import matplotlib.pyplot as plt
@@ -39,15 +39,15 @@ def create_collision_checker_scenario(scenario: Scenario, params=None, collision
 def create_collision_object_rectangle(rect, params=None, collision_object_func=None):
     if math.isclose(rect.orientation, 0.0):
         return pycrcc.RectAABB(
-            0.5 * rect.length, 0.5 * rect.width, rect.center[0], rect.center[1])
+            0.5 * rect.length, 0.5 * rect.width, rect.rect_center.x, rect.rect_center.y)
     else:
         return pycrcc.RectOBB(0.5 * rect.length, 0.5 * rect.width,
-                              rect.orientation, rect.center[0],
-                              rect.center[1])
+                              rect.orientation, rect.rect_center.x,
+                              rect.rect_center.y)
 
 
 def create_collision_object_circle(circle, params=None, collision_object_func=None):
-    return pycrcc.Circle(circle.radius, circle.center[0], circle.center[1])
+    return pycrcc.Circle(circle.radius, circle.circle_center.x, circle.circle_center.y)
 
 
 def create_collision_object_polygon(polygon, params=None, collision_object_func=None):
@@ -93,14 +93,14 @@ def create_collision_object_polygon(polygon, params=None, collision_object_func=
                                                 v1[0], v1[1],
                                                 v2[0], v2[1]))
 
-            return pycrcc.Polygon(polygon.vertices.tolist(), list(), mesh)
+            return pycrcc.Polygon(np.asarray(polygon.vertices).tolist(), list(), mesh)
         else:
-            return pycrcc.Polygon(polygon.vertices.tolist(), list())
+            return pycrcc.Polygon(np.asarray(polygon.vertices).tolist(), list())
 
 
 def create_collision_object_shape_group(shape_group, params=None, collision_object_func=None):
     sg = pycrcc.ShapeGroup()
-    for shape in shape_group.shapes:
+    for shape in shape_group.occupancies:
         co = commonroad_dc.collision.collision_detection.pycrcc_collision_dispatch.create_collision_object(
             shape, params, collision_object_func)
         if co is not None:
@@ -112,7 +112,7 @@ def create_collision_object_static_obstacle(static_obstacle, params=None, collis
     initial_time_step = static_obstacle.initial_state.time_step
     occupancy = static_obstacle.occupancy_at_time(initial_time_step)
     return commonroad_dc.collision.collision_detection.pycrcc_collision_dispatch.create_collision_object(
-        occupancy.shape, params, collision_object_func)
+        occupancy, params, collision_object_func)
 
 
 def create_collision_object_dynamic_obstacle(dynamic_obstacle, params=None, collision_object_func=None):
@@ -120,30 +120,32 @@ def create_collision_object_dynamic_obstacle(dynamic_obstacle, params=None, coll
     tvo = pycrcc.TimeVariantCollisionObject(initial_time_step)
     # add occupancy of initial state
     tvo.append_obstacle(commonroad_dc.collision.collision_detection.pycrcc_collision_dispatch.create_collision_object(
-        dynamic_obstacle.occupancy_at_time(initial_time_step).shape, params, collision_object_func))
+        dynamic_obstacle.occupancy_at_time(initial_time_step), params, collision_object_func))
     # add occupancies of prediction
     if dynamic_obstacle.prediction is not None:
-        for occupancy in dynamic_obstacle.prediction.occupancy_set:
+        occupancies = dynamic_obstacle.prediction.occupancies
+        for ts in occupancies.keys():
             tvo.append_obstacle(
                 commonroad_dc.collision.collision_detection.pycrcc_collision_dispatch.create_collision_object(
-                    occupancy.shape, params, collision_object_func))
+                    occupancies[ts], params, collision_object_func))
     return tvo
 
 
 def create_collision_object_prediction(prediction, params=None, collision_object_func=None):
     tvo = pycrcc.TimeVariantCollisionObject(prediction.initial_time_step)
-    for occupancy in prediction.occupancy_set:
+    occupancies = prediction.occupancies
+    for ts in occupancies.keys():
         tvo.append_obstacle(
             commonroad_dc.collision.collision_detection.pycrcc_collision_dispatch.create_collision_object(
-                occupancy.shape, params, collision_object_func))
+                occupancies[ts], params, collision_object_func))
     return tvo
 
 
 collision_object_func_dict = {
-    commonroad.geometry.shape.ShapeGroup: create_collision_object_shape_group,
-    commonroad.geometry.shape.Polygon: create_collision_object_polygon,
-    commonroad.geometry.shape.Circle: create_collision_object_circle,
-    commonroad.geometry.shape.Rectangle: create_collision_object_rectangle,
+    commonroad.geometry.occupancy.occupancy_group.OccupancyGroup: create_collision_object_shape_group,
+    commonroad.geometry.occupancy.polygon_occupancy.PolygonOccupancy: create_collision_object_polygon,
+    commonroad.geometry.occupancy.circle_occupancy.CircleOccupancy: create_collision_object_circle,
+    commonroad.geometry.occupancy.rect_occupancy.RectOccupancy: create_collision_object_rectangle,
     commonroad.scenario.obstacle.StaticObstacle: create_collision_object_static_obstacle,
     commonroad.scenario.obstacle.DynamicObstacle: create_collision_object_dynamic_obstacle,
     commonroad.prediction.prediction.SetBasedPrediction: create_collision_object_prediction,
