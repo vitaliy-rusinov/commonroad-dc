@@ -34,7 +34,13 @@ def create_collision_checker_scenario(scenario: Scenario, params=None, collision
             shape_group.add_shape(collision_object)
     cc.add_collision_object(shape_group)
     return cc
-
+    
+def create_collision_checker_list(lst: list, params=None, collision_object_func=None):
+    cc = pycrcc.CollisionChecker()
+    for el in lst:
+        cc.add_collision_object(commonroad_dc.collision.collision_detection.pycrcc_collision_dispatch.
+                                create_collision_object(el, params, collision_object_func))
+    return cc
 
 def create_collision_object_rectangle(rect, params=None, collision_object_func=None):
     if math.isclose(rect.orientation, 0.0):
@@ -67,6 +73,8 @@ def create_collision_object_polygon(polygon, params=None, collision_object_func=
                 vertices = polygon.vertices[:-1]
             else:
                 vertices = polygon.vertices
+
+            vertices = vertices.reverse()
 
             # Randomly appearing segfault in triangle library if duplicate vertices
             # https://github.com/drufat/triangle/issues/2#issuecomment-583812662
@@ -154,4 +162,5 @@ collision_object_func_dict = {
 
 collision_checker_func_dict = {
     commonroad.scenario.scenario.Scenario: create_collision_checker_scenario,
+    list: create_collision_checker_list
 }

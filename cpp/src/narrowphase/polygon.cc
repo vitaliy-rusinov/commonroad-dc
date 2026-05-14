@@ -11,6 +11,22 @@
 
 #include "collision/narrowphase/polygon.h"
 
+namespace {
+	bool is_counter_clockwise(const std::vector<Eigen::Vector2d>& vertices) {
+		double sum = 0.0;
+		size_t n = vertices.size();
+
+		for (size_t i = 0; i < n; i++) {
+			const Eigen::Vector2d& p1 = vertices[i];
+			const Eigen::Vector2d& p2 = vertices[(i + 1) % n];
+
+			sum += (p2[0] - p1[0]) * (p2[1] + p1[1]);
+		}
+
+		return sum < 0;
+	}
+}
+
 namespace collision {
 
 Polygon::Polygon(std::vector<Eigen::Vector2d> &vertices,
@@ -21,6 +37,7 @@ Polygon::Polygon(std::vector<Eigen::Vector2d> &vertices,
   vertices_ = vertices;
   hole_vertices_ = hole_vertices;
   mesh_triangles_ = mesh_triangles;
+  validate_ring_ordering();
   invalidateCollisionEntityCache();
 }
 #if ENABLE_TRIANGULATION
@@ -31,6 +48,7 @@ Polygon::Polygon(std::vector<Eigen::Vector2d> &vertices,
     : Shape(_center) {
   hole_vertices_ = hole_vertices;
   vertices_ = vertices;
+  validate_ring_ordering();
   if (qual.bb_only) {
     triangulation::do_triangulate_aabb(vertices, mesh_triangles_);
   } else {
@@ -61,6 +79,19 @@ Polygon::Polygon(std::vector<Eigen::Vector2d> &vertices, int triangulation_metho
 }
 */
 #endif
+
+
+
+void Polygon::validate_ring_ordering() {
+	if (!is_counter_clockwise(vertices_)) {
+		std::reverse(vertices_.begin(), vertices_.end());
+	}
+	for (auto& inner_ring: hole_vertices_) {
+		if (!is_counter_clockwise(inner_ring)) {
+			std::reverse(inner_ring.begin(), inner_ring.end());
+		}
+	}
+}
 
 bool Polygon::rayTrace(const Eigen::Vector2d &point1,
                        const Eigen::Vector2d &point2,

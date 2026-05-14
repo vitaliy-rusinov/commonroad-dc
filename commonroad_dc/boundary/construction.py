@@ -1,4 +1,5 @@
 import numpy as np
+import shapely as shapely
 
 # GPC
 import Polygon as gpc
@@ -326,61 +327,43 @@ def construct_boundary_obstacle_obb_rectangles(scenario: Scenario, width=1e-5, o
         return remove_border_rect(sg_rectangles)
     else:
         return sg_rectangles
-"""
-def postprocess_create_static_obstacle_triangles(scenario: Scenario, shape_group: pycrcc.ShapeGroup):
-    initial_state = InitialState(position=np.array([0, 0]), orientation=0.0, time_step=0, velocity=0, acceleration=0,
-                                 yaw_rate=0, slip_angle=0)
-    road_boundary_shape_list = list()
+
+def postprocess_create_list_of_occupancies_triangles(shape_group: pycrcc.ShapeGroup):
+
+    road_boundary_occupancy_list = list()
     for r in shape_group.unpack():
-        verts = []
-        for vert in r.vertices():
-                vert_tuple = (vert[0], vert[1])
-                verts.append(vert_tuple)
-        verts = tuple(verts)
-        p = PolygonObstacleShape(vertices=np.array()))
-        road_boundary_shape_list.append(p)
-    road_boundary_obstacle = StaticObstacle(obstacle_id=scenario.generate_object_id(),
-                                            obstacle_type=ObstacleType.ROAD_BOUNDARY,
-                                            obstacle_shape=ShapeGroup(road_boundary_shape_list),
-                                            initial_state=initial_state)
-    return road_boundary_obstacle
+        p = PolygonOccupancy(polygon = shapely.geometry.Polygon(np.array(r.vertices())))
+        road_boundary_occupancy_list.append(p)
+    return road_boundary_occupancy_list
 
 
-def postprocess_create_static_obstacle_obb_rectangles(scenario: Scenario, shape_group: pycrcc.ShapeGroup):
-    initial_state = InitialState(position=np.array([0, 0]), orientation=0.0, time_step=0, velocity=0, acceleration=0,
-                                 yaw_rate=0, slip_angle=0)
-    road_boundary_shape_list = list()
+def postprocess_create_list_of_occupancies_obb_rectangles(shape_group: pycrcc.ShapeGroup):
+    road_boundary_occupancy_list = list()
     for r in shape_group.unpack():
-        p = Rectangle(r.r_x() * 2, r.r_y() * 2, r.center(), r.orientation())
-        road_boundary_shape_list.append(p)
-    road_boundary_obstacle = StaticObstacle(obstacle_id=scenario.generate_object_id(),
-                                            obstacle_type=ObstacleType.ROAD_BOUNDARY,
-                                            obstacle_shape=ShapeGroup(road_boundary_shape_list),
-                                            initial_state=initial_state)
-    return road_boundary_obstacle
-"""
+        p = RectOccupancy(rect_center=shapely.Point(r.center()), width=r.r_y() * 2, length=r.r_x() * 2, orientation=r.orientation())
+        road_boundary_occupancy_list.append(p)
+    return road_boundary_occupancy_list
 
-def construct_boundary_obstacle(scenario: Scenario, method, return_scenario_obstacle, kwargs):
+def construct_boundary_obstacle(scenario: Scenario, method, return_list_of_occupancies, kwargs):
     build_func_dict = {
         'triangulation': construct_boundary_obstacle_triangulation,
         'aligned_triangulation': construct_boundary_obstacle_aligned_triangulation,
         'obb_rectangles': construct_boundary_obstacle_obb_rectangles,
     }
-    """
-    postprocess_obstacle_func_dict = {
-        'triangulation': postprocess_create_static_obstacle_triangles,
-        'aligned_triangulation': postprocess_create_static_obstacle_triangles,
-        'obb_rectangles': postprocess_create_static_obstacle_obb_rectangles,
-    }
-    """
-    obstacle = build_func_dict[method](scenario, **kwargs)
-    """
-    if return_scenario_obstacle:
-        scenario_obstacle = postprocess_obstacle_func_dict[method](scenario, obstacle)
-        return scenario_obstacle, obstacle
-    """
-    return obstacle
 
+    postprocess_obstacle_func_dict = {
+        'triangulation': postprocess_create_list_of_occupancies_triangles,
+        'aligned_triangulation': postprocess_create_list_of_occupancies_triangles,
+        'obb_rectangles': postprocess_create_list_of_occupancies_obb_rectangles,
+    }
+    
+    obstacle = build_func_dict[method](scenario, **kwargs)
+    
+    if return_list_of_occupancies:
+        list_of_occupancies = postprocess_obstacle_func_dict[method](obstacle)
+        return list_of_occupancies, obstacle
+ 
+    return obstacle
 
 def _lane_polygons_postprocess(lane_polygons, buf_width, triangulate):
     return pycrcc.Util.lane_polygons_postprocess(lane_polygons, buf_width, triangulate)

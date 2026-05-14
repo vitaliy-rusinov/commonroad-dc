@@ -21,7 +21,16 @@ class Triangle : public Shape {
   Triangle(const Eigen::Vector2d &_v1 = Eigen::Vector2d(0, 0),
            const Eigen::Vector2d &_v2 = Eigen::Vector2d(0, 0),
            const Eigen::Vector2d &_v3 = Eigen::Vector2d(0, 0))
-      : Shape(Eigen::Vector2d(0, 0)), v1_(_v1), v2_(_v2), v3_(_v3) {
+      : Shape(Eigen::Vector2d(0, 0)) {
+	if (compute_signed_area() < 0.0) {
+		v1_ = _v1;
+		v2_ = _v2;
+		v3_ = _v3;
+	} else {
+		v1_ = _v1;
+		v2_ = _v3;
+		v3_ = _v2;
+	}
     set_center(compute_center());
     compute_incircle_radius_and_center();
     segments_.push_back(LineSegment(_v1, _v2));
@@ -87,6 +96,8 @@ class Triangle : public Shape {
   Eigen::Vector2d compute_center();
   void compute_incircle_radius_and_center();
   void compute_is_valid();
+
+  double compute_signed_area() const;
 
   using Shape::center_;
   using Shape::radius_;

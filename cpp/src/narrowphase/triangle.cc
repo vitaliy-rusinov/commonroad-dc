@@ -104,13 +104,16 @@ Eigen::Vector2d Triangle::compute_center() {
   return Eigen::Vector2d(x, y);
 }
 
-void Triangle::compute_is_valid() {
+double Triangle::compute_signed_area() const {
 	double area = 0.0;
 	area += (v1().x() * v2().y() - v2().x() * v1().y());
 	area += (v2().x() * v3().y() - v3().x() * v2().y());
 	area += (v3().x() * v1().y() - v1().x() * v3().y());
+	return area / 2.0;
+}
 
-	area = fabs(area / 2.0);
+void Triangle::compute_is_valid() {
+	double area = fabs(compute_signed_area());
 
 	auto side1 = v2() - v1();
 	auto side2 = v3() - v1();
