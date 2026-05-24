@@ -3,7 +3,6 @@ from typing import Tuple, Dict
 
 import numpy as np
 from commonroad.common.solution import PlanningProblemSolution, TrajectoryType, Solution, VehicleModel
-#from commonroad.geometry.shape import Polygon, ShapeGroup
 from commonroad.planning.planning_problem import PlanningProblemSet
 from commonroad.prediction.prediction import TrajectoryPrediction
 from commonroad.scenario.obstacle import StaticObstacle, ObstacleType

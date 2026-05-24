@@ -22,11 +22,10 @@ class Triangle : public Shape {
            const Eigen::Vector2d &_v2 = Eigen::Vector2d(0, 0),
            const Eigen::Vector2d &_v3 = Eigen::Vector2d(0, 0))
       : Shape(Eigen::Vector2d(0, 0)) {
-	if (compute_signed_area() < 0.0) {
-		v1_ = _v1;
-		v2_ = _v2;
-		v3_ = _v3;
-	} else {
+	v1_ = _v1;
+	v2_ = _v2;
+	v3_ = _v3;
+	if (compute_signed_area() < 0.0f) {
 		v1_ = _v1;
 		v2_ = _v3;
 		v3_ = _v2;

@@ -106,21 +106,18 @@ Eigen::Vector2d Triangle::compute_center() {
 
 double Triangle::compute_signed_area() const {
 	double area = 0.0;
-	area += (v1().x() * v2().y() - v2().x() * v1().y());
-	area += (v2().x() * v3().y() - v3().x() * v2().y());
-	area += (v3().x() * v1().y() - v1().x() * v3().y());
+	area += (v1_.x() * v2_.y() - v2_.x() * v1_.y());
+	area += (v2_.x() * v3_.y() - v3_.x() * v2_.y());
+	area += (v3_.x() * v1_.y() - v1_.x() * v3_.y());
 	return area / 2.0;
 }
 
 void Triangle::compute_is_valid() {
 	double area = fabs(compute_signed_area());
 
-	auto side1 = v2() - v1();
-	auto side2 = v3() - v1();
-	auto side3 = v3() - v2();
-	double side1_sqn = side1.squaredNorm();
-	double side2_sqn = side2.squaredNorm();
-	double side3_sqn = side3.squaredNorm();
+	double side1_sqn = (v2_ - v1_).squaredNorm();
+	double side2_sqn = (v3_ - v1_).squaredNorm();
+	double side3_sqn = (v3_ - v2_).squaredNorm();
 
 	auto max_side = sqrt(std::max( { side1_sqn, side2_sqn, side3_sqn }));
 	auto min_side = sqrt(std::min( { side1_sqn, side2_sqn, side3_sqn }));

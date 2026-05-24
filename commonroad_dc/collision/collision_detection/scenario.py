@@ -106,9 +106,9 @@ def create_collision_object_polygon(polygon, params=None, collision_object_func=
             return pycrcc.Polygon(np.asarray(polygon.vertices).tolist(), list())
 
 
-def create_collision_object_shape_group(shape_group, params=None, collision_object_func=None):
+def create_collision_object_occupancy_group(occupancy_group, params=None, collision_object_func=None):
     sg = pycrcc.ShapeGroup()
-    for shape in shape_group.occupancies:
+    for shape in occupancy_group.occupancies:
         co = commonroad_dc.collision.collision_detection.pycrcc_collision_dispatch.create_collision_object(
             shape, params, collision_object_func)
         if co is not None:
@@ -150,7 +150,7 @@ def create_collision_object_prediction(prediction, params=None, collision_object
 
 
 collision_object_func_dict = {
-    commonroad.geometry.occupancy.occupancy_group.OccupancyGroup: create_collision_object_shape_group,
+    commonroad.geometry.occupancy.occupancy_group.OccupancyGroup: create_collision_object_occupancy_group,
     commonroad.geometry.occupancy.polygon_occupancy.PolygonOccupancy: create_collision_object_polygon,
     commonroad.geometry.occupancy.circle_occupancy.CircleOccupancy: create_collision_object_circle,
     commonroad.geometry.occupancy.rect_occupancy.RectOccupancy: create_collision_object_rectangle,
