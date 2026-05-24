@@ -29,6 +29,17 @@ namespace {
 
 namespace collision {
 
+/*!
+ \brief Constructs a Polygon.
+ \param[in] vertices - the outer ring vertices of the Polygon (counter-clockwise orientation). The outer ring is not required to be closed.
+ \param[in] hole_vertices - the inner rings of vertices of the Polygon (counter-clockwise orientation), holes in the polygon. The inner rings
+ are not required to be closed. The hole_verices are considered only for Polygon operations with Boost, such as Polygon enclosure, not for
+ collision checking.
+ \param[in] mesh_triangles - Triangles, used for collision checking
+ \param[in] _center - center of the polygon. Please note that the vertice coordinates are to be specified in absolute coordinates,
+ not relative to the center.
+*/
+
 Polygon::Polygon(std::vector<Eigen::Vector2d> &vertices,
                  std::vector<std::vector<Eigen::Vector2d>> &hole_vertices,
                  std::vector<TriangleConstPtr> &mesh_triangles,
@@ -41,6 +52,19 @@ Polygon::Polygon(std::vector<Eigen::Vector2d> &vertices,
   invalidateCollisionEntityCache();
 }
 #if ENABLE_TRIANGULATION
+
+/*!
+ \brief Constructs a Polygon.
+ \param[in] vertices - the outer ring vertices of the Polygon (counter-clockwise orientation). The outer ring is not required to be closed.
+ \param[in] hole_vertices - the inner rings of vertices of the Polygon (counter-clockwise orientation), holes in the polygon. The inner rings
+ are not required to be closed. The hole_verices are considered only for Polygon operations with Boost, such as Polygon enclosure, not for
+ collision checking.
+ \param[in] triangulation_method - library to be used for triangulation.
+ \param[in] qual - required quality of triangulation
+ \param[in] _center - center of the polygon. Please note that the vertice coordinates are to be specified in absolute coordinates,
+ not relative to the center.
+*/
+
 Polygon::Polygon(std::vector<Eigen::Vector2d> &vertices,
                  std::vector<std::vector<Eigen::Vector2d>> &hole_vertices, int triangulation_method,
                  triangulation::TriangulationQuality qual,
@@ -60,24 +84,7 @@ Polygon::Polygon(std::vector<Eigen::Vector2d> &vertices,
   }
   invalidateCollisionEntityCache();
 }
-/*
-Polygon::Polygon(std::vector<Eigen::Vector2d> &vertices, int triangulation_method,
-                 triangulation::TriangulationQuality qual,
-                 const Eigen::Vector2d &_center)
-    : Shape(_center) {
-  vertices_ = vertices;
-  if (qual.bb_only) {
-    triangulation::do_triangulate_aabb(vertices, mesh_triangles_);
-  } else {
-    if (!qual.use_quality) {
-      triangulation::do_triangulate(vertices, mesh_triangles_, triangulation_method);
-    } else {
-      triangulation::do_triangulateQuality(vertices, mesh_triangles_, triangulation_method, qual);
-    }
-  }
-  invalidateCollisionEntityCache();
-}
-*/
+
 #endif
 
 
@@ -92,6 +99,15 @@ void Polygon::validate_ring_ordering() {
 		}
 	}
 }
+
+/*!
+ \brief A helper function that is called from the rayTracePrimitive function.
+ Given the query line segment [point1, point2], it outputs the part(s) of the line segment that intersect with the Polygon,
+ taking into the account only the mesh_triangles, not hole_vertices.
+ \param[in] point1 - start of the query line segment
+ \param[in] point2 - end of the query line segment
+ \param[out] intersect - vector to which the output line segments are to be appended
+*/
 
 bool Polygon::rayTrace(const Eigen::Vector2d &point1,
                        const Eigen::Vector2d &point2,
@@ -109,7 +125,15 @@ bool Polygon::rayTrace(const Eigen::Vector2d &point1,
   return res;
 }
 
+/*!
+ \brief Clones the Polygon
+*/
+
 Polygon *Polygon::clone() const { return new Polygon(*this); }
+
+/*!
+ \brief Copy constructor for a Polygon
+*/
 
 Polygon::Polygon(const Polygon &copy) : Shape(copy) {
   vertices_ = copy.getVertices();
@@ -118,9 +142,22 @@ Polygon::Polygon(const Polygon &copy) : Shape(copy) {
   invalidateCollisionEntityCache();
 }
 
+/*!
+ \brief Returns the type of the Shape
+*/
+
 ShapeType Polygon::type(void) const { return type_; }
 
+/*!
+ \brief does nothing
+*/
+
 void Polygon::print(std::ostringstream &stream) const {}
+
+/*!
+ \brief Prints out important information about the Polygon
+ \param[out] stream - output stringstream to print the information to
+*/
 
 void Polygon::toString(std::ostringstream &stream) const {
   stream << "Polygon "
@@ -130,6 +167,11 @@ void Polygon::toString(std::ostringstream &stream) const {
   }
   stream << "\\Polygon " << std::endl;
 }
+
+/*!
+ \brief Checks if the Polygon is fully contained within another Polygon.
+ \param[in] poly2 - the other polygon
+*/
 
 bool Polygon::isWithin(const Polygon &poly2) const {
   using namespace collision::solvers::solverBoost;
@@ -141,6 +183,12 @@ bool Polygon::isWithin(const Polygon &poly2) const {
   }
   return boost_within(*this_boost, *other_boost);
 }
+
+/*!
+ \brief creates FCL collision geometry for a Polygon. This is a FCL library internal representation used for collision checking.
+ Invalid triangles are not added. If the polygon has no triangles added, it is considered to be invalid.
+ All collision functions will return false for an invalid Polygon
+*/
 
 fcl::CollisionGeometry<FCL_PRECISION> *Polygon::createFCLCollisionGeometry(
     void) const {
@@ -177,6 +225,12 @@ fcl::CollisionGeometry<FCL_PRECISION> *Polygon::createFCLCollisionGeometry(
 	  // will crash upon collision detection with the created fcl collision object unless is_valid_ is checked
   }
 }
+
+/*!
+ \brief creates FCL collision object for a Polygon. This is a FCL library internal representation used for collision checking.
+ \param[in] col_geom - corresponding FCL collision geometry
+*/
+
 fcl::CollisionObject<FCL_PRECISION> *Polygon::createFCLCollisionObject(
     const std::shared_ptr<fcl::CollisionGeometry<FCL_PRECISION>> &col_geom)
     const {
@@ -188,15 +242,33 @@ CollisionObjectConstPtr Polygon::timeSlice(
   return shared_ptr_this;
 }
 
+/*!
+ \brief a getter for mesh_triangles_
+*/
+
 std::vector<TriangleConstPtr> Polygon::getTriangleMesh() const {
   return mesh_triangles_;
 }
 
+/*!
+ \brief a getter for vertices_
+*/
+
 std::vector<Eigen::Vector2d> Polygon::getVertices() const { return vertices_; }
+
+
+/*!
+ \brief a getter for hole_vertices_
+*/
 
 std::vector<std::vector<Eigen::Vector2d>> Polygon::getHoleVertices() const {
   return hole_vertices_;
 }
+
+/*!
+ \brief Creates BoostPolygon object from the Polygon or returns the stored boost_polygon_.
+ BoostPolygon enables the use of boost::geometry library functions.
+*/
 
 BoostPolygon* Polygon::getOrCreateBoostPolygon(void) const {
 	if (!has_boost_polygon_) {
@@ -211,6 +283,10 @@ BoostPolygon* Polygon::getOrCreateBoostPolygon(void) const {
 namespace serialize {
 ICollisionObjectExport *exportObject(const collision::Polygon &);
 }
+
+/*!
+ \brief Exports the Polygon into a serializable object. S11n library is used for serialization.
+*/
 
 serialize::ICollisionObjectExport *Polygon::exportThis(void) const {
   return serialize::exportObject(*this);

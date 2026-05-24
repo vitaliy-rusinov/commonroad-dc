@@ -38,6 +38,13 @@ extern "C" {
 namespace collision {
 namespace triangulation {
 
+/*!
+ \brief Triangulate only the AABB box of the Polygon
+ \param[in] vertices input vertices of the Polygon to be triangulated
+ \param[out] triangles_out vector to which the output triangles are to be appended
+ Creates 2 triangles representing the AABB box around the Polygon.
+*/
+
 int do_triangulate_aabb(
     std::vector<Eigen::Vector2d> vertices,
     std::vector<collision::TriangleConstPtr> &triangles_out) {
@@ -342,6 +349,13 @@ int do_triangulateQuality_gpc(
 
 #endif
 
+/*!
+ \brief Triangulate the Polygon without specifying the quality of the Triangle mesh
+ \param[in] vertices input vertices of the Polygon to be triangulated
+ \param[out] triangles_out vector to which the output triangles are to be appended
+ \param[in] method which library to use for Polygon triangulation
+*/
+
 int do_triangulate(std::vector<Eigen::Vector2d> vertices,
                    std::vector<collision::TriangleConstPtr> &triangles_out, int method) {
 
@@ -373,6 +387,13 @@ int do_triangulate(std::vector<Eigen::Vector2d> vertices,
 	}
 	return 0;
 }
+
+/*!
+ \brief Triangulate the Polygon specifying the quality of the Triangle mesh
+ \param[in] vertices input vertices of the Polygon to be triangulated
+ \param[out] triangles_out vector to which the output triangles are to be appended
+ \param[in] method which library to use for Polygon triangulation
+*/
 
 int do_triangulateQuality(
     std::vector<Eigen::Vector2d> vertices,
