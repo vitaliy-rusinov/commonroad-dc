@@ -50,6 +50,7 @@ Polygon::Polygon(std::vector<Eigen::Vector2d> &vertices,
   mesh_triangles_ = mesh_triangles;
   validate_ring_ordering();
   invalidateCollisionEntityCache();
+  compute_is_valid();
 }
 #if ENABLE_TRIANGULATION
 
@@ -83,11 +84,20 @@ Polygon::Polygon(std::vector<Eigen::Vector2d> &vertices,
     }
   }
   invalidateCollisionEntityCache();
+  compute_is_valid();
 }
 
 #endif
 
-
+void Polygon::compute_is_valid() {
+  for (auto &tr : mesh_triangles_) {
+	  if(tr->is_valid()) {
+		  is_valid_ = true;
+		  return;
+	  }
+  }
+  is_valid_ = false;
+}
 
 void Polygon::validate_ring_ordering() {
 	if (!is_counter_clockwise(vertices_)) {
@@ -139,6 +149,7 @@ Polygon::Polygon(const Polygon &copy) : Shape(copy) {
   vertices_ = copy.getVertices();
   hole_vertices_ = copy.getHoleVertices();
   mesh_triangles_ = copy.getTriangleMesh();
+  is_valid_ = copy.is_valid();
   invalidateCollisionEntityCache();
 }
 
@@ -205,7 +216,6 @@ fcl::CollisionGeometry<FCL_PRECISION> *Polygon::createFCLCollisionGeometry(
 	  fcl::BVHModel<fcl::AABB<FCL_PRECISION>> *model =
 	      new fcl::BVHModel<fcl::AABB<FCL_PRECISION>>();
 	  model->beginModel(tris.size(), tris.size() * 3);
-	  fcl::Vector3<FCL_PRECISION> v3(0, 0, 0);
 	  for (auto tr : tris) {
 		Eigen::Vector2d v2d = tr->v1();
 		fcl::Vector3<FCL_PRECISION> v1(v2d[0], v2d[1], 0);
@@ -216,6 +226,7 @@ fcl::CollisionGeometry<FCL_PRECISION> *Polygon::createFCLCollisionGeometry(
 		model->addTriangle(v1, v2, v3);
 	  }
 	  model->endModel();
+	  is_valid_ = true;
 	  return model;
   } else {
 	  is_valid_ = false;
@@ -235,6 +246,14 @@ fcl::CollisionObject<FCL_PRECISION> *Polygon::createFCLCollisionObject(
     const std::shared_ptr<fcl::CollisionGeometry<FCL_PRECISION>> &col_geom)
     const {
   return new fcl::CollisionObject<FCL_PRECISION>(col_geom);
+}
+
+RectangleAABBConstPtr Polygon::getAABB() const {
+  if (!is_valid_) {
+	return std::make_shared<const RectangleAABB>(0, 0);
+  } else {
+	return CollisionObject::getAABB();
+  }
 }
 
 CollisionObjectConstPtr Polygon::timeSlice(
