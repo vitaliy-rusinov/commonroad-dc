@@ -33,7 +33,7 @@ def is_triangle_valid(tri):
         return False
 
 def run_test_invalid_triangle():
-    random_object_creator = creator = RandomObjectCreator(-20, 20, -20, 20, 500, 500)
+    random_object_creator = RandomObjectCreator(-20, 20, -20, 20, 500, 500)
     num_iters = 100000
     eps = 1e-10
     for iter in tqdm(range(num_iters)):
