@@ -138,6 +138,8 @@ void RectangleAABB::set_r(const Eigen::Vector2d &_r) {
   min_ = center_ - r_;
   max_ = center_ + r_;
   invalidateCollisionEntityCache();
+  segments_.clear();
+  set_up_segments();
 }
 
 /*!
@@ -162,6 +164,8 @@ void RectangleAABB::set_center(const Eigen::Vector2d &_center) {
   min_ = center_ - r_;
   max_ = center_ + r_;
   invalidateCollisionEntityCache();
+  segments_.clear();
+  set_up_segments();
 }
 
 /*!
@@ -174,6 +178,8 @@ void RectangleAABB::set_r_x(double _r_x) {
   min_(0) = center_(0) - r_(0);
   max_(0) = center_(0) + r_(0);
   invalidateCollisionEntityCache();
+  segments_.clear();
+  set_up_segments();
 }
 
 /*!
@@ -186,6 +192,8 @@ void RectangleAABB::set_r_y(double _r_y) {
   min_(1) = center_(1) - r_(1);
   max_(1) = center_(1) + r_(1);
   invalidateCollisionEntityCache();
+  segments_.clear();
+  set_up_segments();
 }
 
 /*!
@@ -209,6 +217,8 @@ void RectangleAABB::set_all(double r_x, double r_y, double center_x,
   min_(1) = center_y - r_y;
   max_(1) = center_y + r_y;
   invalidateCollisionEntityCache();
+  segments_.clear();
+  set_up_segments();
 }
 
 /*!

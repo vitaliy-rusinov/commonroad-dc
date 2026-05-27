@@ -145,8 +145,10 @@ double RectangleOBB::r_y() const { return r_(1); }
 void RectangleOBB::set_local_x_axis(const Eigen::Vector2d &x_axis) {
   local_axes_.col(0) = x_axis;
   invalidateCollisionEntityCache();
-  is_fastAABB_cached_ = false;
+  //is_fastAABB_cached_ = false;
   is_orientation_cached_ = false;
+  segments_.clear();
+  set_up_segments(); // also recomputes fastAABB
 }
 
 /*!
@@ -156,8 +158,22 @@ void RectangleOBB::set_local_x_axis(const Eigen::Vector2d &x_axis) {
 void RectangleOBB::set_local_y_axis(const Eigen::Vector2d &y_axis) {
   local_axes_.col(1) = y_axis;
   invalidateCollisionEntityCache();
-  is_fastAABB_cached_ = false;
+  //is_fastAABB_cached_ = false;
   is_orientation_cached_ = false;
+  segments_.clear();
+  set_up_segments(); // also recomputes fastAABB
+}
+
+/*!
+ \brief setter for the center of the RectangleOBB.
+*/
+
+void RectangleOBB::set_center(const Eigen::Vector2d &_center) {
+  center_ = _center;
+  invalidateCollisionEntityCache();
+  //is_fastAABB_cached_ = false;
+  segments_.clear();
+  set_up_segments();
 }
 
 /*!
@@ -167,7 +183,9 @@ void RectangleOBB::set_local_y_axis(const Eigen::Vector2d &y_axis) {
 void RectangleOBB::set_r_x(double _r_x) {
   r_(0) = _r_x;
   invalidateCollisionEntityCache();
-  is_fastAABB_cached_ = false;
+  //is_fastAABB_cached_ = false;
+  segments_.clear();
+  set_up_segments(); // also recomputes fastAABB
 }
 
 /*!
@@ -177,7 +195,9 @@ void RectangleOBB::set_r_x(double _r_x) {
 void RectangleOBB::set_r_y(double _r_y) {
   r_(1) = _r_y;
   invalidateCollisionEntityCache();
-  is_fastAABB_cached_ = false;
+  //is_fastAABB_cached_ = false;
+  segments_.clear();
+  set_up_segments();
 }
 
 /*!

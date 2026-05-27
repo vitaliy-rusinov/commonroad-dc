@@ -148,6 +148,8 @@ double Triangle::incircle_radius() const { return incircle_radius_; }
 void Triangle::set_v1(const Eigen::Vector2d &_v1) {
   v1_ = _v1;
   invalidateCollisionEntityCache();
+  segments_.clear();
+  set_cached_fields();
 }
 
 /*!
@@ -157,6 +159,8 @@ void Triangle::set_v1(const Eigen::Vector2d &_v1) {
 void Triangle::set_v2(const Eigen::Vector2d &_v2) {
   v2_ = _v2;
   invalidateCollisionEntityCache();
+  segments_.clear();
+  set_cached_fields();
 }
 
 /*!
@@ -166,6 +170,8 @@ void Triangle::set_v2(const Eigen::Vector2d &_v2) {
 void Triangle::set_v3(const Eigen::Vector2d &_v3) {
   v3_ = _v3;
   invalidateCollisionEntityCache();
+  segments_.clear();
+  set_cached_fields();
 }
 
 /*!
