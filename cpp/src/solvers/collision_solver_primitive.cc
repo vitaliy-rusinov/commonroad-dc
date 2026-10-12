@@ -6,18 +6,6 @@ namespace collision {
 
 namespace solvers {
 namespace solverPrimitive {
-int not_implemented_error(const CollisionObject &obj1,
-		const CollisionObject &obj2, const char *solver_name) {
-	std::cout
-			<< std::string("collision function between object of types ")
-					+ std::to_string(obj1.getCollisionObjectType())
-					+ std::string(" and ")
-					+ std::to_string(obj2.getCollisionObjectType())
-					+ std::string("is not implemented in the solver ")
-					+ std::string(solver_name) << std::endl;
-	throw;
-	return 0;
-}
 
 /*!
  \brief Helper function to check for a collision between two axis-aligned boxes
