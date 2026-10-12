@@ -76,8 +76,6 @@ class Polygon : public Shape {
   virtual void toString(std::ostringstream &stream) const;
 
   virtual void print(std::ostringstream &stream) const;
-  virtual CollisionObjectConstPtr timeSlice(
-      int time_idx, CollisionObjectConstPtr shared_ptr_this) const;
 
   ShapeGroupConstPtr getTrapezoids() const;
 

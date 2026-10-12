@@ -256,11 +256,6 @@ RectangleAABBConstPtr Polygon::getAABB() const {
   }
 }
 
-CollisionObjectConstPtr Polygon::timeSlice(
-    int time_idx, CollisionObjectConstPtr shared_ptr_this) const {
-  return shared_ptr_this;
-}
-
 /*!
  \brief a getter for mesh_triangles_
 */
