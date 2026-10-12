@@ -3,10 +3,8 @@ import shapely
 from tqdm import tqdm
 
 import commonroad_dc.pycrcc as pycrcc
-if __name__ == "__main__":
-    from random_object_creator import RandomObjectCreator
-else:
-    from .random_object_creator import RandomObjectCreator
+
+from random_object_creator import RandomObjectCreator
 
 def construct_shapely_polygon_tri(tri):
     return shapely.Polygon(tri.vertices())
@@ -33,7 +31,7 @@ def is_triangle_valid(tri):
         return False
 
 def run_test_invalid_triangle():
-    random_object_creator = RandomObjectCreator(-20, 20, -20, 20, 500, 500)
+    random_object_creator = creator = RandomObjectCreator(-20, 20, -20, 20, 500, 500)
     num_iters = 100000
     eps = 1e-10
     for iter in tqdm(range(num_iters)):
@@ -50,6 +48,16 @@ def run_test_invalid_triangle():
             return True
         if is_triangle_valid(tri4) == False:
             return True
+        """
+        if tri1.is_valid() == True:
+            return True
+        if tri2.is_valid() == True:
+            return True
+        if tri3.is_valid() == False:
+            return True
+        if tri4.is_valid() == False:
+            return True
+        """
         if tri1.collide(tri2) == True:
             return True
         if tri2.collide(tri1) == True:
