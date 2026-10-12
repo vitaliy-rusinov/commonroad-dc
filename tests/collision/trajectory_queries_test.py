@@ -3,7 +3,7 @@ import commonroad_dc.pycrcc as pycrcc
 import numpy as np
 from tqdm import tqdm
 
-from .random_object_creator import RandomObjectCreator
+from random_object_creator import RandomObjectCreator
 
 creator = RandomObjectCreator(-20, 20, -20, 20, 500, 500)
 

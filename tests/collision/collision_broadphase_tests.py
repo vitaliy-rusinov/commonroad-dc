@@ -1,7 +1,4 @@
-if __name__ == "__main__":
-    from random_object_creator import RandomObjectCreator
-else:
-    from .random_object_creator import RandomObjectCreator
+from random_object_creator import RandomObjectCreator
 import commonroad_dc.pycrcc as pycrcc
 
 import os

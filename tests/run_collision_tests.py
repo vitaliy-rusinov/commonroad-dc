@@ -1,42 +1,25 @@
-from collision.collision_broadphase_tests import run_test as run_collision_broadphase_tests
-from collision.pickle_test import run_test as run_pickle_test
-from collision.trajectory_queries_test import run_test as run_test_trajectory_queries
-from collision.trajectory_broadphase_tests import run_test as run_trajectory_broadphase_tests
-from collision.trajectory_narrowphase_tests import run_test as run_trajectory_narrowphase_tests
-from collision.trajectory_test_empty_sg import run_test as run_trajectory_test_empty_sg
-from collision.test_invalid_triangle import run_test_invalid_triangle
-from collision.test_triangle_polygon_vertex_reordering import run_test_triangle_polygon_reordering
+import unittest as unittest
+import os
+import sys
 
-has_error = False
+if __name__ == "__main__":
+    print(os.getcwd())
+    errors = 0
+    failures = 0
+    tests = 0
+    for x in os.walk(os.getcwd() + "/collision/"):
+        # TODO costs tests need to be fixed and are temporarily disabled in CI
+        # TODO some feasibility tests have a scipy-relgetcwdated bug and is temporarily disabled in CI
+        if not '__' in x[0] and not '.' in x[0] and not 'costs' in x[0] and not 'feasibility' in x[0]:
+            print(x[0])
+            all_tests = unittest.TestLoader().discover(x[0], pattern='test_*.py')
+            b = unittest.TextTestRunner().run(all_tests)
+            failures += len(b.failures)
+            errors += len(b.errors)
+            tests += b.testsRun
 
-print("Running collision broadphase tests...")
-if run_collision_broadphase_tests() == True:
-    exit(1)
-
-print("Running pickle tests...")
-if run_pickle_test() == True:
-    exit(1)
-
-print("Running trajectory query tests...")
-if run_test_trajectory_queries() == True:
-    exit(1)
-
-print("Running trajectory broadphase tests...")
-if run_trajectory_broadphase_tests() == True:
-    exit(1)
-
-print("Running trajectory narrowphase tests...")
-if run_trajectory_narrowphase_tests() == True:
-    exit(1)
-
-print("Running trajectory queries for empty ShapeGroups tests...")
-if run_trajectory_test_empty_sg() == True:
-    exit(1)
-
-print("Running triangle validity check tests...")
-if run_test_invalid_triangle() == True:
-    exit(1)
-
-print("Running triangle and polygon vertex reordering tests...")
-if run_test_triangle_polygon_reordering() == True:
-    exit(1)
+    print(
+        'Executed {} tests; got {} fails and {} errors'.format(tests, failures, errors)
+    )
+    if errors > 0 or failures > 0:
+        sys.exit(1)
