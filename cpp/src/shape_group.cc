@@ -281,7 +281,7 @@ std::vector<ShapeConstPtr> ShapeGroup::getShapes() { return shapes_; }
  \brief getter for shapes_map_
 */
 
-std::unordered_map<const CollisionObject *, std::list<int>> ShapeGroup::getShapesMap() { return shapes_map_; }
+std::unordered_map<const CollisionObject *, std::list<int>> ShapeGroup::getShapesMap() const { return shapes_map_; }
 
 #if ENABLE_SERIALIZER
 
