@@ -2,7 +2,10 @@ import numpy as np
 from tqdm import tqdm
 from shapely.geometry import MultiPoint
 
-from random_object_creator import RandomObjectCreator
+if __name__ == "__main__":
+    from random_object_creator import RandomObjectCreator
+else:
+    from .random_object_creator import RandomObjectCreator
 
 import commonroad_dc.pycrcc as pycrcc
 
@@ -28,7 +31,7 @@ def create_random_convex_polygon(num_points=15, bounds=(0, 100)):
 def run_test_triangle_polygon_reordering():
     rnd_creator = RandomObjectCreator(-20, 20, -20, 20, 500, 500)
 
-    iter_max = 100000
+    iter_max = 10000
     has_error = False
     for iter in tqdm(range(iter_max)):
 

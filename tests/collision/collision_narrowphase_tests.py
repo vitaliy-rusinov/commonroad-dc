@@ -5,7 +5,10 @@ import numpy as np
 import pickle
 from tqdm import tqdm
 
-from random_object_creator import RandomObjectCreator
+if __name__ == "__main__":
+    from random_object_creator import RandomObjectCreator
+else:
+    from .random_object_creator import RandomObjectCreator
 
 def construct_shapely_polygon_obb(obb):
     v1 = obb.center() - obb.r_x() * obb.local_x_axis() + obb.r_y() * obb.local_y_axis()

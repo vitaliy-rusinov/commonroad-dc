@@ -3,7 +3,10 @@ import os
 import commonroad_dc.pycrcc as pycrcc
 import pickle
 from tqdm import tqdm
-from random_object_creator import RandomObjectCreator
+if __name__ == "__main__":
+    from random_object_creator import RandomObjectCreator
+else:
+    from .random_object_creator import RandomObjectCreator
 
 def run_test():
     tvo2 = pycrcc.TimeVariantCollisionObject(4)

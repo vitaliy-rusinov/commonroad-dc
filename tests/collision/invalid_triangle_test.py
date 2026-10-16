@@ -4,7 +4,10 @@ from tqdm import tqdm
 
 import commonroad_dc.pycrcc as pycrcc
 
-from random_object_creator import RandomObjectCreator
+if __name__ == "__main__":
+    from random_object_creator import RandomObjectCreator
+else:
+    from .random_object_creator import RandomObjectCreator
 
 def construct_shapely_polygon_tri(tri):
     return shapely.Polygon(tri.vertices())

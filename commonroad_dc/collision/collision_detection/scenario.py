@@ -1,7 +1,11 @@
 import math
 import warnings
 
-import commonroad.geometry.occupancy
+import commonroad.geometry.occupancy.occupancy_group
+import commonroad.geometry.occupancy.polygon_occupancy
+import commonroad.geometry.occupancy.circle_occupancy
+import commonroad.geometry.occupancy.rect_occupancy
+
 import commonroad.prediction
 import commonroad.scenario.obstacle
 import matplotlib.pyplot as plt

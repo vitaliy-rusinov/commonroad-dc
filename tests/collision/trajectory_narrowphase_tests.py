@@ -1,4 +1,7 @@
-from random_object_creator import RandomObjectCreator
+if __name__ == "__main__":
+    from random_object_creator import RandomObjectCreator
+else:
+    from .random_object_creator import RandomObjectCreator
 import commonroad_dc.collision.trajectory_queries.trajectory_queries as trajectory_queries
 import commonroad_dc.pycrcc as pycrcc
 import shapely
